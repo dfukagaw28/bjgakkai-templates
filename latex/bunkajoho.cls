@@ -114,6 +114,12 @@
 \RenewBlockHeading{section}{1}{font={\fontsize{11.5bp}{15.9bp}\selectfont\bj@headfont}, lines=2, before_lines=1, after_lines=0, label_format={\thesection.}}
 \RenewBlockHeading{subsection}{2}{font={\normalsize\bj@headfont}, lines=1, before_lines=1, after_lines=0, label_format={\thesubsection}}
 \RenewBlockHeading{subsubsection}{3}{font={\normalsize\bj@headfont}, lines=1, before_lines=0, after_lines=0, label_format={\thesubsubsection}}
+%% 見出しが続く場合: 項以下の前の空行は入れない（刊行版では節見出しの次の行に項見出しが来る）
+\SetBlockHeadingSpaces{
+  {_section{*},_subsection{lines=1}}
+  {_section{*},_subsection{lines=1},_subsubsection{lines=1}}
+  {_subsection{*},_subsubsection{lines=1}}
+}
 
 %% 図表キャプション（9bp ゴシック）
 \DeclareCaptionFont{bjcaption}{\fontsize{9bp}{13bp}\selectfont\bj@headfont}
