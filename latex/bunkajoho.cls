@@ -75,7 +75,6 @@
     \ifx\bj@type\bj@t@material \renewcommand*\bj@typename{Material Introduction}\fi
     \ifx\bj@type\bj@t@review   \renewcommand*\bj@typename{Book Review}\fi}
   \newcommand*\bj@abstractname{Abstract}
-  \newcommand*\bj@keywordsname{Keywords:}
   \newcommand*\bj@acknowledgmentsname{Acknowledgments}
   \newcommand*\bj@appendixname{Appendix}
   \newcommand*\bj@refname{References}
@@ -89,7 +88,6 @@
     \ifx\bj@type\bj@t@material \renewcommand*\bj@typename{資料紹介}\fi
     \ifx\bj@type\bj@t@review   \renewcommand*\bj@typename{書評}\fi}
   \newcommand*\bj@abstractname{要旨}
-  \newcommand*\bj@keywordsname{キーワード：}
   \newcommand*\bj@acknowledgmentsname{謝辞}
   \newcommand*\bj@appendixname{付録}
   \newcommand*\bj@refname{文献}
@@ -141,17 +139,13 @@
 
 %% ---------------------------------------------------------------
 %% タイトルページ要素（要項 4.: タイトル・種別・著者名・アブストラクト）
-%%   刊行版・Word テンプレートにあるのは 種別・表題・副題・著者名・要旨 のみ。
-%%   所属・キーワードは任意（指定したときだけ出力）。
+%%   刊行版・Word テンプレートに合わせ、種別・表題・副題・著者名・要旨 のみを置く。
 %% ---------------------------------------------------------------
 \newcommand*\bj@title{}\newcommand*\bj@subtitle{}
-\newcommand*\bj@authors{}\newcommand*\bj@affiliation{}
-\newcommand*\bj@keywords{}
+\newcommand*\bj@authors{}
 \renewcommand*\title[1]{\renewcommand*\bj@title{#1}}
 \newcommand*\subtitle[1]{\renewcommand*\bj@subtitle{#1}}
 \renewcommand*\author[1]{\renewcommand*\bj@authors{#1}}
-\newcommand*\affiliation[1]{\renewcommand*\bj@affiliation{#1}}
-\newcommand*\keywords[1]{\renewcommand*\bj@keywords{#1}}
 
 %% 要旨は環境として蓄える（和文・英文いずれでも可）
 \newcommand*\bj@abstractbody{}
@@ -192,21 +186,17 @@
     \ifx\bj@subtitle\@empty\else
       \vskip 9.8bp{\fontsize{12bp}{17bp}\selectfont\bj@headfont ―\bj@subtitle―\par}\fi}%
   \bj@placeat{53.5bp-(\ht\@tempboxa+\dp\@tempboxa)/2}{\@tempboxa}%
-  % 著者名・所属
+  % 著者名
   \setbox\@tempboxa\vtop{\hsize\textwidth\raggedleft\bj@normalskip
-    {\fontsize{12bp}{17bp}\selectfont\bj@headfont\bj@authors\hspace*{20bp}\par}%
-    \ifx\bj@affiliation\@empty\else
-      {\fontsize{9bp}{12bp}\selectfont\bj@affiliation\hspace*{20bp}\par}\fi}%
+    {\fontsize{12bp}{17bp}\selectfont\bj@headfont\bj@authors\hspace*{20bp}\par}}%
   \@tempdimb=\dimexpr\bj@pos+24bp+\ht\@tempboxa\relax
   \ifdim\@tempdimb<128.5bp\@tempdimb=128.5bp\fi
   \edef\bj@authorbase{\the\@tempdimb}%
   \bj@placebase{\@tempdimb}{\@tempboxa}%
-  % 要旨・キーワード
+  % 要旨
   \setbox\@tempboxa\vtop{\bj@normalskip
     \ifx\bj@abstractbody\@empty\else
-      \bj@abstractpar{\bj@abstractbody}\fi
-    \ifx\bj@keywords\@empty\else
-      \vskip 6bp\bj@abstractpar{\noindent\bj@keywordsname\bj@keywords}\fi}%
+      \bj@abstractpar{\bj@abstractbody}\fi}%
   \ifdim\dimexpr\ht\@tempboxa+\dp\@tempboxa\relax>\z@
     \@tempdimb=\dimexpr\bj@pos+20bp+\ht\@tempboxa\relax
     \ifdim\@tempdimb<\dimexpr\bj@authorbase+56bp\relax\@tempdimb=\dimexpr\bj@authorbase+56bp\relax\fi
