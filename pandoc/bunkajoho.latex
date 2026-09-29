@@ -1,0 +1,30 @@
+%% このファイルは sample.md から pandoc で生成したものです（make latex/sample.tex）。
+%% 直接編集せず、sample.md を編集してください。
+\documentclass[$if(type)$$type$$else$paper$endif$]{bunkajoho}
+
+$for(bibliography)$
+\addbibresource{$bibliography$}
+$endfor$
+
+%% pandoc の出力に必要な定義
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\title{$title$}
+$if(subtitle)$
+\subtitle{$subtitle$}
+$endif$
+\author{$for(author)$$author$$sep$・$endfor$}
+$if(abstract)$
+
+\begin{abstract}
+$abstract$
+\end{abstract}
+$endif$
+
+\begin{document}
+\maketitle
+
+$body$
+
+\end{document}

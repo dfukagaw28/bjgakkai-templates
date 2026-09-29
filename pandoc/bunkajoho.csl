@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  bunkajoho.csl
+  紀要「文化情報学」執筆要項 7. に基づく引用・文献リスト書式（pandoc citeproc 用、非公式）
+  LaTeX 版（latex/bunkajoho.bbx, bunkajoho.cbx）と同じ出力になるようにしている。
+
+  - 和文文献の判定: bib に langid = {japanese} がある（CSL の language がある）文献を和文とみなす。
+    欧文文献には langid を付けないこと。
+  - 並び順: 欧文は第1著者の姓、和文は bib のキー（ローマ字で「姓+年」にしておく）で、
+    欧文と和文を区別せずアルファベット順に並べる。
+  - 訳書などの併記: bib の addendum（pandoc では note として読まれる）を末尾に全角（ ）で付ける。
+-->
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" demote-non-dropping-particle="never" default-locale="en-US">
+  <info>
+    <title>Bunka Joho (Doshisha Society for the Study of Culture and Information Science), unofficial</title>
+    <id>bunkajoho</id>
+    <updated>2026-09-29T00:00:00+00:00</updated>
+  </info>
+  <locale xml:lang="en">
+    <terms>
+      <term name="editor" form="short">
+        <single>Ed.</single>
+        <multiple>Eds.</multiple>
+      </term>
+      <!-- 和文の「安西 他」に使う（欧文は et-al 既定の「et al.」） -->
+      <term name="and others">他</term>
+    </terms>
+  </locale>
+
+  <!-- ===== 名前 ===== -->
+  <!-- 文献リストの著者（編者のみの場合は編者＋「(Eds.)」/「（編）」） -->
+  <macro name="author-bib">
+    <choose>
+      <if variable="language">
+        <names variable="author">
+          <name delimiter="・" name-as-sort-order="all" sort-separator=" ">
+            <name-part name="family" suffix=" "/>
+          </name>
+          <substitute>
+            <group>
+              <names variable="editor">
+                <name delimiter="・" name-as-sort-order="all" sort-separator=" ">
+                  <name-part name="family" suffix=" "/>
+                </name>
+              </names>
+              <text value="（編）"/>
+            </group>
+          </substitute>
+        </names>
+      </if>
+      <else>
+        <names variable="author">
+          <name name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter=", " and="symbol" delimiter-precedes-last="never"/>
+          <substitute>
+            <names variable="editor">
+              <name name-as-sort-order="all" sort-separator=", " initialize-with=". " delimiter=", " and="symbol" delimiter-precedes-last="never"/>
+              <label form="short" prefix=" (" suffix=")"/>
+            </names>
+          </substitute>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <!-- 本文中引用の著者（姓のみ。3名以上は「安西 他」「Joshi et al.」） -->
+  <macro name="author-cite">
+    <choose>
+      <if variable="language">
+        <names variable="author">
+          <name form="short" delimiter="・"/>
+          <et-al term="and others" prefix=" "/>
+          <substitute>
+            <names variable="editor"/>
+          </substitute>
+        </names>
+      </if>
+      <else>
+        <names variable="author">
+          <name form="short" delimiter=", " and="symbol" delimiter-precedes-last="never"/>
+          <substitute>
+            <names variable="editor"/>
+          </substitute>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <!-- 編集書の中の論文の編者: 「In P. Winston (Ed.), 」/「佐伯 胖（編）」 -->
+  <macro name="container-editors">
+    <choose>
+      <if variable="language">
+        <group>
+          <names variable="editor">
+            <name delimiter="・"/>
+          </names>
+          <text value="（編）"/>
+        </group>
+      </if>
+      <else>
+        <names variable="editor">
+          <name initialize-with=". " delimiter=", " and="symbol" delimiter-precedes-last="never"/>
+          <label form="short" prefix=" (" suffix=")"/>
+        </names>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ===== 並び順のキー ===== -->
+  <macro name="sort-key">
+    <choose>
+      <if variable="language">
+        <text variable="citation-key"/>
+      </if>
+      <else>
+        <names variable="author">
+          <name name-as-sort-order="all"/>
+          <substitute>
+            <names variable="editor"/>
+          </substitute>
+        </names>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ===== 発表年 ===== -->
+  <macro name="year">
+    <group>
+      <date variable="issued">
+        <date-part name="year"/>
+      </date>
+      <text variable="year-suffix"/>
+    </group>
+  </macro>
+
+  <!-- ===== 表題 ===== -->
+  <!-- 書籍・報告書・学位論文は 欧文イタリック / 和文『 』、その他は装飾なし -->
+  <macro name="title">
+    <choose>
+      <if type="book report thesis" match="any">
+        <choose>
+          <if variable="language">
+            <text variable="title" prefix="『" suffix="』"/>
+          </if>
+          <else>
+            <text variable="title" text-case="title" font-style="italic"/>
+          </else>
+        </choose>
+      </if>
+      <else>
+        <choose>
+          <if variable="language">
+            <text variable="title"/>
+          </if>
+          <else>
+            <text variable="title" text-case="title"/>
+          </else>
+        </choose>
+      </else>
+    </choose>
+  </macro>
+  <!-- 表題の直後: 「, Report No. CSLI-87-84」「, Doctoral dissertation」 -->
+  <macro name="genre">
+    <choose>
+      <if type="report thesis" match="any">
+        <group delimiter=" " prefix=", ">
+          <text variable="genre"/>
+          <text variable="number"/>
+        </group>
+      </if>
+    </choose>
+  </macro>
+  <macro name="container-title">
+    <choose>
+      <if variable="language">
+        <text variable="container-title" prefix="『" suffix="』"/>
+      </if>
+      <else>
+        <text variable="container-title" text-case="title" font-style="italic"/>
+      </else>
+    </choose>
+  </macro>
+
+  <!-- ===== 掲載情報 ===== -->
+  <!-- 雑誌: 「Psychological Review, 63(1), 81–97」（巻はボールド） -->
+  <!-- 会議録: 「Proceedings of ..., 49–60」 -->
+  <!-- 編集書の中の論文: 「In P. Winston (Ed.), Psychology of Computer Vision, 161–185」 -->
+  <macro name="container">
+    <choose>
+      <if type="article-journal article-magazine article-newspaper" match="any">
+        <group delimiter=", ">
+          <text macro="container-title"/>
+          <group>
+            <text variable="volume" font-weight="bold"/>
+            <choose>
+              <if variable="language">
+                <text variable="issue" prefix="（" suffix="）"/>
+              </if>
+              <else>
+                <text variable="issue" prefix="(" suffix=")"/>
+              </else>
+            </choose>
+          </group>
+          <text variable="page"/>
+        </group>
+      </if>
+      <else-if type="paper-conference">
+        <group delimiter=", ">
+          <text macro="container-title"/>
+          <text variable="page"/>
+        </group>
+      </else-if>
+      <else-if type="chapter entry-encyclopedia" match="any">
+        <choose>
+          <if variable="language">
+            <group delimiter=", ">
+              <group>
+                <text macro="container-editors"/>
+                <text macro="container-title"/>
+              </group>
+              <text variable="page"/>
+            </group>
+          </if>
+          <else>
+            <group delimiter=", ">
+              <group delimiter=" ">
+                <text term="in" text-case="capitalize-first"/>
+                <text macro="container-editors"/>
+              </group>
+              <text macro="container-title"/>
+              <text variable="page"/>
+            </group>
+          </else>
+        </choose>
+      </else-if>
+    </choose>
+  </macro>
+  <macro name="edition">
+    <choose>
+      <if is-numeric="edition">
+        <choose>
+          <if variable="language">
+            <group>
+              <text value="第"/>
+              <number variable="edition"/>
+              <text value="版"/>
+            </group>
+          </if>
+          <else>
+            <group delimiter=" ">
+              <number variable="edition" form="ordinal"/>
+              <text term="edition" form="short"/>
+            </group>
+          </else>
+        </choose>
+      </if>
+      <else>
+        <text variable="edition"/>
+      </else>
+    </choose>
+  </macro>
+  <!-- 出版地: 出版社 -->
+  <macro name="publisher">
+    <group delimiter=": ">
+      <text variable="publisher-place"/>
+      <text variable="publisher"/>
+    </group>
+  </macro>
+
+  <!-- ===== 本文中の引用 ===== -->
+  <!-- （佐伯・佐々木, 1990）/ Gibson （1979）/ （Simon, 1973, 1981）/ （Cohen & Levesque, 1990a, 1990b） -->
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" collapse="year" cite-group-delimiter=", ">
+    <layout prefix="（" suffix="）" delimiter="; ">
+      <group delimiter=", ">
+        <text macro="author-cite"/>
+        <text macro="year"/>
+        <group>
+          <label variable="locator" form="short"/>
+          <text variable="locator"/>
+        </group>
+      </group>
+    </layout>
+  </citation>
+
+  <!-- ===== 文献リスト ===== -->
+  <bibliography hanging-indent="true" entry-spacing="0">
+    <sort>
+      <key macro="sort-key"/>
+      <key variable="issued"/>
+    </sort>
+    <layout>
+      <choose>
+        <!-- 和文: 佐伯 胖・佐々木 正人（編）（1990）．『アクティブ・マインド』．東京: 東京大学出版会． -->
+        <if variable="language">
+          <group delimiter="．" suffix="．">
+            <group>
+              <text macro="author-bib"/>
+              <text macro="year" prefix="（" suffix="）"/>
+            </group>
+            <group>
+              <text macro="title"/>
+              <text macro="genre"/>
+            </group>
+            <text macro="container"/>
+            <text macro="edition"/>
+            <text macro="publisher"/>
+          </group>
+        </if>
+        <!-- 欧文: Miller, G. A. (1956). Title. Psychological Review, 63(1), 81–97. -->
+        <else>
+          <group delimiter=". " suffix=".">
+            <group delimiter=" ">
+              <text macro="author-bib"/>
+              <text macro="year" prefix="(" suffix=")"/>
+            </group>
+            <group>
+              <text macro="title"/>
+              <text macro="genre"/>
+            </group>
+            <text macro="container"/>
+            <text macro="edition"/>
+            <text macro="publisher"/>
+          </group>
+        </else>
+      </choose>
+      <!-- 訳書などの併記（bib の addendum / note） -->
+      <text variable="note" prefix=" （" suffix="）"/>
+    </layout>
+  </bibliography>
+</style>

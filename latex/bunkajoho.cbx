@@ -57,6 +57,9 @@
   {}
   {\usebibmacro{postnote}}
 
+%% 複数の \citep をまとめる \parencites も同じ括弧（pandoc は [@a; @b, p.3] を \autocites で出力する）
+\DeclareMultiCiteCommand{\parencites}[\bj@citeparens]{\parencite}{\multicitedelim}
+
 %% \cite も \citep と同じく括弧付き
 \DeclareCiteCommand{\cite}[\bj@citeparens]
   {\usebibmacro{cite:init}%

@@ -132,6 +132,7 @@
 %%   刊行版の「引用文献」「附録」見出しに合わせ、項と同じ 10bp で組む
 \newcommand*\bj@unnumberedhead[1]{\subsection*{#1}\addcontentsline{toc}{section}{#1}}
 \newenvironment{acknowledgments}{\bj@unnumberedhead{\bj@acknowledgmentsname}}{}
+\newcommand*\unnumberedsection[1]{\bj@unnumberedhead{#1}}  % 任意の番号なし見出し
 \renewcommand\appendix{%
   \setcounter{section}{0}\setcounter{subsection}{0}%
   \renewcommand\thesection{\bj@appendixname\Alph{section}}%
