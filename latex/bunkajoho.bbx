@@ -4,7 +4,7 @@
 %%   - 著者名, 発表年, 表題 … の順
 %%   - 洋書・雑誌名はイタリック、雑誌巻番号はボールド
 %%   - 和文文献は langid={japanese} を付けると「・」「（編）」『』「．」等を使う
-\ProvidesFile{bunkajoho.bbx}[2026/09/29 v0.1 Bunka Joho bibliography style]
+\ProvidesFile{bunkajoho.bbx}[2026/09/29 v0.2 Bunka Joho bibliography style]
 \RequireBibliographyStyle{authoryear-comp}
 
 %% ---- 和文エントリ判定 --------------------------------------------
@@ -14,6 +14,7 @@
 %% 和文: 「姓 名」（bib では author = {佐伯, 胖 and 佐々木, 正人} と書く）
 %% 欧文: 文献リスト = 「Family, G. I.」（APA 風）、編者は「G. I. Family」
 \DeclareNameFormat{bj-family-given}{%
+  \usebibmacro{name:delim}{\namepartfamily}%
   \ifentryjapanese
     {\namepartfamily\ifdefvoid{\namepartgiven}{}{\addspace\namepartgiven}}
     {\namepartfamily
@@ -22,6 +23,7 @@
      \ifdefvoid{\namepartsuffix}{}{\addcomma\space\namepartsuffix}}%
   \usebibmacro{name:andothers}}
 \DeclareNameFormat{bj-given-family}{%
+  \usebibmacro{name:delim}{\namepartfamily}%
   \ifentryjapanese
     {\namepartfamily\ifdefvoid{\namepartgiven}{}{\addspace\namepartgiven}}
     {\ifdefvoid{\namepartgiven}{}{\namepartgiveni\addspace}%
@@ -37,26 +39,36 @@
 \DeclareNameAlias{byeditor}{bj-given-family}
 \DeclareNameAlias{bytranslator}{bj-given-family}
 
-%% 著者間の区切り: 和文「・」 欧文「, 」 最後「 & 」
-\DeclareDelimFormat{multinamedelim}{\ifentryjapanese{・}{\addcomma\space}}
-\DeclareDelimFormat{finalnamedelim}{\ifentryjapanese{・}{\addcomma\space\&\space}}
-\DeclareDelimFormat[bib]{finalnamedelim}{\ifentryjapanese{・}{\addcomma\space\&\space}}
-\DeclareDelimFormat[bib]{finalnamedelim:two}{\ifentryjapanese{・}{\addspace\&\space}}
+%% 著者間の区切り: 和文「・」、欧文「, 」、最後は「 & 」（& の前にカンマを付けない）
+%%   例: Cohen, P. R. & Levesque, H. J. / P. R. Cohen, J. Morgan & M. E. Pollack
+%%   引用（\citet, \citep）でも同じ区切りを使う
+\DeclareDelimFormat[bib,biblist,cite,textcite,parencite]{multinamedelim}{\ifentryjapanese{・}{\addcomma\space}}
+\DeclareDelimFormat[bib,biblist,cite,textcite,parencite]{finalnamedelim}{\ifentryjapanese{・}{\addspace\&\space}}
 \renewbibmacro*{name:andothers}{%
   \ifboolexpr{test {\ifnumequal{\value{listcount}}{\value{liststop}}} and test \ifmorenames}
     {\ifentryjapanese{\addspace 他}{\ifnumgreater{\value{liststop}}{1}{\finalandcomma}{}\andothersdelim\bibstring{andothers}}}
     {}}
 
 %% ---- 句読点 -------------------------------------------------------
-%% 和文文献では単位区切りを全角「．」にする
+%% 和文文献では単位区切りを全角「．」、括弧を全角（ ）にする
 \renewcommand*{\newunitpunct}{\ifentryjapanese{．}{\addperiod\space}}
-\renewcommand*{\finentrypunct}{\ifentryjapanese{．}{\addperiod}}
-\renewcommand*{\mkbibparens}[1]{\ifentryjapanese{（#1）}{(#1)}}
+\newcommand*{\bj@endpunct}{\ifentryjapanese{．}{\addperiod}}
+\renewcommand*{\finentrypunct}{\iffieldundef{addendum}{\bj@endpunct}{}}
+\newcommand*{\bj@bibparens}[1]{\ifentryjapanese{（#1）}{\mkbibparens{#1}}}
+\DeclareFieldFormat{parens}{\bj@bibparens{#1}}
 \renewcommand*{\bibpagespunct}{\addcomma\space}
 \renewcommand*{\subtitlepunct}{\addcolon\space}
-\renewcommand*{\labelnamepunct}{\addspace}
 \renewcommand*{\intitlepunct}{\addspace}
-\renewbibmacro*{in:}{\ifentryjapanese{}{\bibstring{in}\intitlepunct}}
+%% 著者名と発表年: 「Miller, G. A. (1956)」/「佐伯 胖・佐々木 正人（編）（1990）」
+\DeclareDelimFormat[bib,biblist]{nameyeardelim}{\ifentryjapanese{}{\addspace}}
+%% 発表年の後: 「(1956). 表題」/「（1990）．『表題』」
+\DeclareDelimFormat[bib,biblist]{nametitledelim}{\newunitpunct}
+\renewcommand*{\labelnamepunct}{\newunitpunct}
+%% 「In」は編集書の中の論文だけ（雑誌論文には付けない）
+\renewbibmacro*{in:}{%
+  \ifboolexpr{test {\ifentrytype{article}} or test \ifentryjapanese}
+    {}
+    {\bibstring{in}\intitlepunct}}
 \DefineBibliographyStrings{english}{
   in       = {In},
   editor   = {Ed\adddot},
@@ -65,18 +77,25 @@
 }
 
 %% ---- フィールド書式 -----------------------------------------------
-%% 論文表題: 装飾なし。和文書名は『 』、洋書・雑誌名はイタリック。
-\DeclareFieldFormat{title}{#1}
+%% 論文表題: 装飾なし（引用符も付けない）。和文書名は『 』、洋書・雑誌名はイタリック。
+\DeclareFieldFormat*{title}{#1}
 \DeclareFieldFormat[book,report,thesis,collection,proceedings]{title}{\ifentryjapanese{『#1』}{\mkbibemph{#1}}}
 \DeclareFieldFormat{booktitle}{\ifentryjapanese{『#1』}{\mkbibemph{#1}}}
 \DeclareFieldFormat{maintitle}{\ifentryjapanese{『#1』}{\mkbibemph{#1}}}
 \DeclareFieldFormat{journaltitle}{\ifentryjapanese{『#1』}{\mkbibemph{#1}}}
-\DeclareFieldFormat{volume}{\mkbibbold{#1}}
-\DeclareFieldFormat{number}{\mkbibparens{#1}}
+%% 雑誌の巻(号): 「**63**(1)」/「**1**（2）」
+\DeclareFieldFormat[article,periodical]{volume}{\mkbibbold{#1}}
+\DeclareFieldFormat[article,periodical]{number}{\bj@bibparens{#1}}
 \DeclareFieldFormat{pages}{#1}
 \DeclareFieldFormat{url}{\url{#1}}
 \DeclareFieldFormat{doi}{\url{https://doi.org/#1}}
-\DeclareFieldFormat{addendum}{\ifentryjapanese{（#1）}{(#1)}}
+%% 訳書などの併記は全角（ ）で、文献の末尾（ピリオドの後）に置く
+\DeclareFieldFormat{addendum}{（#1）}
+\renewbibmacro*{addendum+pubstate}{\printfield{pubstate}}
+\renewbibmacro*{finentry}{%
+  \iffieldundef{addendum}
+    {\finentry}
+    {\printunit{\bj@endpunct}\printtext{\space}\printfield{addendum}\finentry}}
 
 %% 発表年: 著者の直後に「(1956)」/「（1990）」（a, b 付き）
 \renewbibmacro*{date+extradate}{%
@@ -119,15 +138,10 @@
     \newunit}%
   \usebibmacro{byeditorx}%
   \usebibmacro{bytranslator+others}}
-%% 著者位置に編者が来る場合（編集書そのもの）
-\renewbibmacro*{editor+others}{%
-  \ifboolexpr{test \ifuseeditor and not test {\ifnameundef{editor}}}
-    {\printnames{editor}%
-     \ifentryjapanese
-       {（編）}
-       {\addspace\mkbibparens{\ifnumgreater{\value{editor}}{1}{\bibstring{editors}}{\bibstring{editor}}}}%
-     \clearname{editor}}
-    {}}
+%% 著者位置に編者が来る場合（編集書そのもの）: authoryear の bbx:editor を使い、
+%% 編者の表示だけ「(Ed.)」/「（編）」にする（発表年はその後に続く）
+\DeclareDelimFormat[bib,biblist]{editortypedelim}{\ifentryjapanese{}{\addspace}}
+\DeclareFieldFormat{editortype}{\ifentryjapanese{（編）}{\mkbibparens{#1}}}
 
 %% 訳者: 「（安西 祐一郎 訳（1990）．『心の社会』．東京: 産業図書．）」は
 %% addendum に書くのが簡単。translator フィールドを使う場合の簡易書式も用意。

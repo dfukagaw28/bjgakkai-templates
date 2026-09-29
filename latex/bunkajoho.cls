@@ -209,6 +209,8 @@
 %% ---------------------------------------------------------------
 %% 参照文献（要項 7.: 著者年方式、リスト見出し「文献」、番号なし）
 %% ---------------------------------------------------------------
+%% 本文中引用の括弧: 和文論文は全角（ ）、英語論文は半角 ( )（bunkajoho.cbx）
+\ifbj@english\newcommand*\bjciteopen{(}\newcommand*\bjciteclose{)}\fi
 \RequirePackage[
   backend=biber,
   bibstyle=bunkajoho,
