@@ -10,8 +10,8 @@
 %%
 %% 執筆要項（2022年12月7日改訂）
 %%   https://www.bunkajoho.org/journal/jnl_yoko.html
-%% に基づいて作成。版面・タイトルページ・見出しの体裁は、学会事務局の Word テンプレート
-%% 『文化情報学』テンプレート（横書）.docx（2024年10月更新）に合わせている。
+%% に基づいて作成。版面・タイトルページ・見出しの体裁は、刊行された論文 PDF（InDesign 組版）の
+%% 実測値に合わせている（タイトル部の構成は学会事務局の Word テンプレートも参照）。
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{bunkajoho}[2026/09/29 v0.1 Bunka Joho (Doshisha) journal class (unofficial draft)]
 
@@ -37,22 +37,24 @@
 \ProcessOptionsX\relax
 
 %% ---------------------------------------------------------------
-%% 基本レイアウト（Word テンプレートに準拠）
-%%   A4, 本文 9pt, 行送り 14.4pt, 2段組（24字×49行×2段）
-%%   余白 天 33mm / 地 約15mm / 左右 約25mm, 段間 2字（≒15pt）
+%% 基本レイアウト（刊行版の組版に準拠）
+%%   寸法は刊行版 PDF の実測値（単位 bp = 1/72 inch）
+%%   A4, 本文 10bp, 行送り 14.6bp, 2段組（22字×46行×2段）, 段間 22.5bp
+%%   左右の余白 66.3bp（≒23.4mm）, 1行目のベースラインは紙面上端から約 110bp
+%%   ※ 学会事務局の Word テンプレート（9bp・22字詰め）は刊行版の字詰めに合わせたもの
 %%   要項: 研究論文は刷り上がり20ページ・約30,000字以内
 %% ---------------------------------------------------------------
 \LoadClass[
   paper=a4,
   twocolumn,
-  fontsize=9pt,
-  jafontsize=9pt,
-  baselineskip=14.4pt,
-  line_length=24zw,    % 1段の字数（2段組では段ごとの長さ）
-  column_gap=2zw,
-  number_of_lines=49,
-  head_space=33mm,
-  gutter=25mm,
+  fontsize=10bp,
+  jafontsize=10bp,
+  baselineskip=14.6bp,
+  line_length=22zw,    % 1段の字数（2段組では段ごとの長さ）
+  column_gap=22.5bp,
+  number_of_lines=46,
+  head_space=101.1bp,
+  gutter=66.3bp,
 ]{jlreq}
 
 \RequirePackage[haranoaji]{luatexja-preset}
@@ -105,20 +107,26 @@
 
 %% ---------------------------------------------------------------
 %% 見出し（節番号は 1, 2.3, 3.4.2 形式。要項 5.）
-%%   Word テンプレートに合わせ、本文と同サイズのゴシック（太字なし）・1字下げ。
-%%   節番号は「1.」、項以下は「1.1」「1.1.1」。
+%%   刊行版に合わせ、ゴシック（太字なし）・字下げなし。
+%%   節: 11.5bp, 2行取り（段の途中では前に1行空ける）, 番号は「1.」
+%%   項以下: 10bp, 1行取り（前に1行空ける）, 番号は「1.1」「1.1.1」
 %% ---------------------------------------------------------------
 \setcounter{secnumdepth}{3}
-\jlreqsetup{
-  caption_font=\normalfont,
-  caption_label_font=\bfseries,
-}
-\RenewBlockHeading{section}{1}{font=\normalsize\sffamily\gtfamily, indent=1\zw, lines=1, before_space=0.5\baselineskip, after_space=0.5\baselineskip, label_format={\thesection.}}
-\RenewBlockHeading{subsection}{2}{font=\normalsize\sffamily\gtfamily, indent=1\zw, lines=1, before_space=0.25\baselineskip, after_space=0.25\baselineskip, label_format={\thesubsection}}
-\RenewBlockHeading{subsubsection}{3}{font=\normalsize\sffamily\gtfamily, indent=1\zw, lines=1, before_space=0.25\baselineskip, after_space=0.25\baselineskip, label_format={\thesubsubsection}}
+\newcommand*\bj@headfont{\sffamily\gtfamily}
+\RenewBlockHeading{section}{1}{font={\fontsize{11.5bp}{15.9bp}\selectfont\bj@headfont}, lines=2, before_lines=1, after_lines=0, label_format={\thesection.}}
+\RenewBlockHeading{subsection}{2}{font={\normalsize\bj@headfont}, lines=1, before_lines=1, after_lines=0, label_format={\thesubsection}}
+\RenewBlockHeading{subsubsection}{3}{font={\normalsize\bj@headfont}, lines=1, before_lines=0, after_lines=0, label_format={\thesubsubsection}}
+
+%% 図表キャプション（9bp ゴシック）
+\DeclareCaptionFont{bjcaption}{\fontsize{9bp}{13bp}\selectfont\bj@headfont}
+\captionsetup{font=bjcaption, labelfont=bjcaption}
+
+%% 脚注（8.5bp）
+\renewcommand\footnotesize{\fontsize{8.5bp}{13bp}\selectfont}
 
 %% 番号なし見出し（謝辞・文献・付録）
-\newcommand*\bj@unnumberedhead[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
+%%   刊行版の「引用文献」「附録」見出しに合わせ、項と同じ 10bp で組む
+\newcommand*\bj@unnumberedhead[1]{\subsection*{#1}\addcontentsline{toc}{section}{#1}}
 \newenvironment{acknowledgments}{\bj@unnumberedhead{\bj@acknowledgmentsname}}{}
 \renewcommand\appendix{%
   \setcounter{section}{0}\setcounter{subsection}{0}%
@@ -133,70 +141,97 @@
 
 %% ---------------------------------------------------------------
 %% タイトルページ要素（要項 4.: タイトル・種別・著者名・アブストラクト）
-%%   Word テンプレートにあるのは 種別・表題・副題・著者名・要旨 のみ。
-%%   英文表題・英文著者名・所属・キーワードは任意（指定したときだけ出力）。
+%%   刊行版・Word テンプレートにあるのは 種別・表題・副題・著者名・要旨 のみ。
+%%   所属・キーワードは任意（指定したときだけ出力）。
 %% ---------------------------------------------------------------
 \newcommand*\bj@title{}\newcommand*\bj@subtitle{}
 \newcommand*\bj@authors{}\newcommand*\bj@affiliation{}
-\newcommand*\bj@etitle{}\newcommand*\bj@eauthors{}
 \newcommand*\bj@keywords{}
 \renewcommand*\title[1]{\renewcommand*\bj@title{#1}}
 \newcommand*\subtitle[1]{\renewcommand*\bj@subtitle{#1}}
 \renewcommand*\author[1]{\renewcommand*\bj@authors{#1}}
 \newcommand*\affiliation[1]{\renewcommand*\bj@affiliation{#1}}
-\newcommand*\englishtitle[1]{\renewcommand*\bj@etitle{#1}}
-\newcommand*\englishauthor[1]{\renewcommand*\bj@eauthors{#1}}
 \newcommand*\keywords[1]{\renewcommand*\bj@keywords{#1}}
 
-%% 要旨は環境として蓄える（和文・英文いずれでも可。両方も可）
-\newcommand*\bj@abstractbody{}\newcommand*\bj@eabstractbody{}
+%% 要旨は環境として蓄える（和文・英文いずれでも可）
+\newcommand*\bj@abstractbody{}
 \RenewDocumentEnvironment{abstract}{+b}{\gdef\bj@abstractbody{#1}}{}
-\NewDocumentEnvironment{englishabstract}{+b}{\gdef\bj@eabstractbody{#1}}{}
 
-%% 要旨ブロック（8.5pt, 左右 23pt 字下げ, 段落頭1字下げ, 見出しなし）
-\newcommand\bj@abstractblock[1]{%
-  \begin{list}{}{\leftmargin=23pt\rightmargin=23pt\topsep=0pt\partopsep=0pt\parsep=0pt}%
-    \fontsize{8.5pt}{13pt}\selectfont
-    \setlength\listparindent{1\zw}\setlength\itemindent{1\zw}%
-    \item\relax #1
-  \end{list}}
+%% タイトル部（刊行版の1ページ目に準拠。位置は種別ラベルのベースラインからの距離）
+%%   種別ラベル 10bp ゴシック（本文1行目と同じ高さ）＋ 版面幅の水平線
+%%   表題 16bp ゴシック（行送り 28.3bp）・副題 12bp ゴシック「―副題―」: 中心を +53.5bp に置く
+%%   著者名 12bp ゴシック, 右寄せ（右端から 20bp 内側）: ベースライン +128.5bp
+%%   要旨 9bp, 行送り 12bp, 左右 20bp 字下げ, 段落頭1字下げ, 見出しなし: 1行目を著者名の 56bp 下に置く
+%%   本文はタイトル部の後、少なくとも 34bp 空けて始める（行送りの整数倍に切り上げ）
+\newdimen\bj@pos   % 直前に置いたものの下端（種別ラベルのベースラインからの距離）
+\newcommand\bj@placeat[2]{% #1: ボックス #2 の上端を置く位置
+  \@tempdima=\dimexpr#1\relax
+  \kern\dimexpr\@tempdima-\bj@pos\relax
+  \global\bj@pos=\dimexpr\@tempdima+\ht#2+\dp#2\relax
+  \box#2}
+\newcommand\bj@placebase[2]{% #1: ボックス #2 の1行目のベースラインの位置（#2 は \vtop）
+  \bj@placeat{#1-\ht#2}{#2}}
+\newcommand*\bj@normalskip{\lineskiplimit\z@\lineskip 1pt\relax}% \offinterlineskip を打ち消す
+\newcommand*\bj@abstractwidth{\dimexpr\textwidth-40bp\relax}
 
-%% タイトル部は2段組の上に1段で組む
 \newcommand\bj@maketitle{%
   \begingroup
+  \offinterlineskip
   \setlength\parindent{0pt}%
-  % 種別ラベル（10.5pt ゴシック, 左寄せ）
-  {\fontsize{10.5pt}{14.4pt}\selectfont\sffamily\gtfamily\bj@typename\par}
-  \vspace{43.2pt}%
-  \begin{center}
-    % 表題（16.5pt ゴシック, 太字なし）
-    {\fontsize{16.5pt}{24pt}\selectfont\sffamily\gtfamily\bj@title\par}
-    % 副題（14pt 明朝, ―副題―）
+  % 種別ラベル
+  % 種別ラベル（ベースラインを本文1行目と揃える）
+  \setbox\z@\hbox{\fontsize{10bp}{14.6bp}\selectfont\bj@headfont\bj@typename}%
+  \kern\dimexpr\topskip-\ht\z@\relax
+  \global\bj@pos=\dp\z@ \box\z@
+  % 水平線（ラベルのベースラインの 4bp 下）
+  \kern\dimexpr4pt-\bj@pos\relax\hrule height 0.75pt
+  \global\bj@pos=4.75bp
+  % 表題・副題
+  \setbox\@tempboxa\vbox{\hsize\textwidth\centering\bj@normalskip
+    {\fontsize{16bp}{28.3bp}\selectfont\bj@headfont\bj@title\par}%
     \ifx\bj@subtitle\@empty\else
-      \vspace{0.5\baselineskip}{\fontsize{14pt}{20pt}\selectfont ―\bj@subtitle―\par}\fi
-    \ifx\bj@etitle\@empty\else
-      \vspace{0.5\baselineskip}{\fontsize{12pt}{18pt}\selectfont\bj@etitle\par}\fi
-  \end{center}
-  \vspace{43.2pt}%
-  % 著者名（10.5pt, 右寄せ, 右端から2字内側）
-  {\raggedleft\fontsize{10.5pt}{15pt}\selectfont
-    \bj@authors\hspace*{2\zw}\par
-    \ifx\bj@eauthors\@empty\else\bj@eauthors\hspace*{2\zw}\par\fi
-    \ifx\bj@affiliation\@empty\else{\fontsize{8.5pt}{13pt}\selectfont\bj@affiliation\hspace*{2\zw}\par}\fi}
-  \vspace{28.8pt}%
-  % 要旨
-  \ifx\bj@abstractbody\@empty\else\bj@abstractblock{\bj@abstractbody}\fi
-  \ifx\bj@eabstractbody\@empty\else
-    \ifx\bj@abstractbody\@empty\else\vspace{0.5\baselineskip}\fi
-    \bj@abstractblock{\bj@eabstractbody}\fi
-  \ifx\bj@keywords\@empty\else
-    \vspace{0.5\baselineskip}%
-    \bj@abstractblock{\hspace*{-1\zw}\bj@keywordsname\bj@keywords}\fi
-  \vspace{28.8pt}%
+      \vskip 9.8bp{\fontsize{12bp}{17bp}\selectfont\bj@headfont ―\bj@subtitle―\par}\fi}%
+  \bj@placeat{53.5bp-(\ht\@tempboxa+\dp\@tempboxa)/2}{\@tempboxa}%
+  % 著者名・所属
+  \setbox\@tempboxa\vtop{\hsize\textwidth\raggedleft\bj@normalskip
+    {\fontsize{12bp}{17bp}\selectfont\bj@headfont\bj@authors\hspace*{20bp}\par}%
+    \ifx\bj@affiliation\@empty\else
+      {\fontsize{9bp}{12bp}\selectfont\bj@affiliation\hspace*{20bp}\par}\fi}%
+  \@tempdimb=\dimexpr\bj@pos+24bp+\ht\@tempboxa\relax
+  \ifdim\@tempdimb<128.5bp\@tempdimb=128.5bp\fi
+  \edef\bj@authorbase{\the\@tempdimb}%
+  \bj@placebase{\@tempdimb}{\@tempboxa}%
+  % 要旨・キーワード
+  \setbox\@tempboxa\vtop{\bj@normalskip
+    \ifx\bj@abstractbody\@empty\else
+      \bj@abstractpar{\bj@abstractbody}\fi
+    \ifx\bj@keywords\@empty\else
+      \vskip 6bp\bj@abstractpar{\noindent\bj@keywordsname\bj@keywords}\fi}%
+  \ifdim\dimexpr\ht\@tempboxa+\dp\@tempboxa\relax>\z@
+    \@tempdimb=\dimexpr\bj@pos+20bp+\ht\@tempboxa\relax
+    \ifdim\@tempdimb<\dimexpr\bj@authorbase+56bp\relax\@tempdimb=\dimexpr\bj@authorbase+56bp\relax\fi
+    \bj@placebase{\@tempdimb}{\@tempboxa}%
+  \fi
+  % 本文までの空き（本文1行目のベースラインまで 34bp 以上）
+  \kern\dimexpr34pt-\topskip\relax
   \endgroup}
 
+%% 要旨の段落（9bp, 行送り 12bp, 左右 20bp 字下げ, 段落頭1字下げ）
+\newcommand\bj@abstractpar[1]{%
+  \moveright 20bp\vtop{\hsize\bj@abstractwidth
+    \fontsize{9bp}{12bp}\selectfont
+    \parindent 1\zw #1\par}}
+
+%% タイトル部の高さを行送りの整数倍に切り上げ、本文の行位置を揃える
+\newcommand\bj@gridtitle{%
+  \setbox\@tempboxa\vbox{\bj@maketitle}%
+  \@tempdima=\dimexpr\ht\@tempboxa+\dp\@tempboxa\relax
+  \@tempcnta=\numexpr\@tempdima/\baselineskip\relax
+  \ifdim\@tempcnta\baselineskip<\@tempdima\advance\@tempcnta\@ne\fi
+  \vbox to \@tempcnta\baselineskip{\unvbox\@tempboxa\vfil}}
+
 \renewcommand\maketitle{%
-  \twocolumn[\bj@maketitle]%
+  \twocolumn[\bj@gridtitle]%
   \thispagestyle{empty}}
 
 %% ---------------------------------------------------------------
@@ -227,6 +262,9 @@
   references = {\bj@refname},
 }
 \defbibheading{bibliography}[\bj@refname]{\bj@unnumberedhead{#1}}
+%% 文献リスト: 9bp, 行送り 13bp, ぶら下げ 2字（18bp）
+\renewcommand*{\bibfont}{\fontsize{9bp}{13bp}\selectfont}
+\setlength{\bibhang}{18bp}
 
 %% ---------------------------------------------------------------
 %% その他

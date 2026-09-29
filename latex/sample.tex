@@ -8,9 +8,7 @@
 
 \title{紀要「文化情報学」LaTeX テンプレートの設計}
 \subtitle{執筆要項に基づくクラスファイルと文献スタイル}
-\englishtitle{A LaTeX Template for the Journal \emph{Culture and Information Science}}
 \author{同志社 太郎\textsuperscript{1}・文化 花子\textsuperscript{2}}
-\englishauthor{Taro Doshisha and Hanako Bunka}
 \affiliation{\textsuperscript{1}同志社大学文化情報学部　\textsuperscript{2}同志社大学大学院文化情報学研究科}
 \keywords{LaTeX，テンプレート，紀要，文化情報学}
 
@@ -18,14 +16,8 @@
 本稿は、同志社大学文化情報学会紀要『文化情報学』の執筆要項（2022 年 12 月 7 日改訂）に基づいて作成した
 LaTeX テンプレートの使い方を示すものである。本文そのものが使用例となっており、
 タイトルページの構成、節番号、図表、数式、脚注、参照文献の書き方を順に説明する。
-要旨は和文・英文いずれでも、また両方でもよい。
+要旨は和文・英文いずれで書いてもよい。
 \end{abstract}
-
-\begin{englishabstract}
-This document describes an unofficial LaTeX template for the journal
-\emph{Culture and Information Science} published by the Doshisha Society for the Study of
-Culture and Information Science. The document itself serves as a usage example.
-\end{englishabstract}
 
 \begin{document}
 \maketitle
@@ -112,7 +104,7 @@ Culture and Information Science. The document itself serves as a usage example.
   \centering
   \caption{引用コマンドと出力}
   \label{tab:cite}
-  \small
+  \footnotesize
   \begin{tabular}{ll}
     \toprule
     コマンド & 出力 \\
@@ -142,7 +134,7 @@ Culture and Information Science. The document itself serves as a usage example.
 \section{おわりに}
 
 本テンプレートは非公式の叩き台である。判型・字詰め・フォントサイズなどは
-学会事務局の Word テンプレートに合わせているが、編集委員会の指定があればクラスファイル冒頭の
+刊行された論文の組版に合わせているが、編集委員会の指定があればクラスファイル冒頭の
 \verb|\LoadClass| オプションを調整されたい。
 
 \begin{acknowledgments}
