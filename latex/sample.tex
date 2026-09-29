@@ -13,7 +13,6 @@
 \englishauthor{Taro Doshisha and Hanako Bunka}
 \affiliation{\textsuperscript{1}同志社大学文化情報学部　\textsuperscript{2}同志社大学大学院文化情報学研究科}
 \keywords{LaTeX，テンプレート，紀要，文化情報学}
-\runninghead{紀要「文化情報学」LaTeX テンプレートの設計}
 
 \begin{abstract}
 本稿は、同志社大学文化情報学会紀要『文化情報学』の執筆要項（2022 年 12 月 7 日改訂）に基づいて作成した
@@ -40,7 +39,7 @@ Culture and Information Science. The document itself serves as a usage example.
 第 1 ページ左上の種別ラベルが変わる。
 
 第 1 ページには、要項 4. のとおり、タイトル・種別・著者名・アブストラクトが置かれる。
-ページ番号は第 1 ページから通しで付く。
+ページ番号は事務局が付けるため、投稿原稿には付けない。
 
 \section{本文の書き方}
 
@@ -84,7 +83,7 @@ Culture and Information Science. The document itself serves as a usage example.
 
 \begin{figure}[tb]
   \centering
-  \fbox{\parbox[c][30mm][c]{80mm}{\centering ここに図を置く\\ \small（\texttt{\string\includegraphics} を使用）}}
+  \fbox{\parbox[c][30mm][c]{0.9\linewidth}{\centering ここに図を置く\\ \small（\texttt{\string\includegraphics} を使用）}}
   \caption{図の例}
   \label{fig:sample}
 \end{figure}
@@ -109,7 +108,7 @@ Culture and Information Science. The document itself serves as a usage example.
 本文中で文献を参照する際は、著者の姓の後に発表年を西暦で記す（要項 7.）。
 表~\ref{tab:cite} に要項の例と対応するコマンドを示す。
 
-\begin{table}[tb]
+\begin{table*}[tb]
   \centering
   \caption{引用コマンドと出力}
   \label{tab:cite}
@@ -128,9 +127,8 @@ Culture and Information Science. The document itself serves as a usage example.
     \verb|\citep{anzai1992,joshi1981,minsky1975,minsky1986}| & \citep{anzai1992,joshi1981,minsky1975,minsky1986} \\
     \bottomrule
   \end{tabular}
-\end{table}
+\end{table*}
 
-\end{document}
 文章の一部として読む場合は \citet{gibson1979} によれば……のように書き、
 そうでない場合は……が提唱されている\citep{saeki1990}のように書く。
 
@@ -143,8 +141,8 @@ Culture and Information Science. The document itself serves as a usage example.
 
 \section{おわりに}
 
-本テンプレートは非公式の叩き台であり、判型・字詰め・フォントサイズなどは
-要項に明記がないため暫定値としている。編集委員会の指定があればクラスファイル冒頭の
+本テンプレートは非公式の叩き台である。判型・字詰め・フォントサイズなどは
+学会事務局の Word テンプレートに合わせているが、編集委員会の指定があればクラスファイル冒頭の
 \verb|\LoadClass| オプションを調整されたい。
 
 \begin{acknowledgments}

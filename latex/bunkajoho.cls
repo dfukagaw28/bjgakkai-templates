@@ -10,7 +10,8 @@
 %%
 %% 執筆要項（2022年12月7日改訂）
 %%   https://www.bunkajoho.org/journal/jnl_yoko.html
-%% に基づいて作成。判型・字詰め等は要項に明記がないため暫定値。
+%% に基づいて作成。版面・タイトルページ・見出しの体裁は、学会事務局の Word テンプレート
+%% 『文化情報学』テンプレート（横書）.docx（2024年10月更新）に合わせている。
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesClass{bunkajoho}[2026/09/29 v0.1 Bunka Joho (Doshisha) journal class (unofficial draft)]
 
@@ -36,18 +37,22 @@
 \ProcessOptionsX\relax
 
 %% ---------------------------------------------------------------
-%% 基本レイアウト（暫定値: A4, 10pt, 38字×40行 ≒ 1,500字/頁）
+%% 基本レイアウト（Word テンプレートに準拠）
+%%   A4, 本文 9pt, 行送り 14.4pt, 2段組（24字×49行×2段）
+%%   余白 天 33mm / 地 約15mm / 左右 約25mm, 段間 2字（≒15pt）
 %%   要項: 研究論文は刷り上がり20ページ・約30,000字以内
 %% ---------------------------------------------------------------
 \LoadClass[
   paper=a4,
-  fontsize=10pt,
-  jafontsize=10pt,
-  line_length=38zw,
-  number_of_lines=40,
-  head_space=25mm,
+  twocolumn,
+  fontsize=9pt,
+  jafontsize=9pt,
+  baselineskip=14.4pt,
+  line_length=24zw,    % 1段の字数（2段組では段ごとの長さ）
+  column_gap=2zw,
+  number_of_lines=49,
+  head_space=33mm,
   gutter=25mm,
-  headfoot_verticalposition=1.5zw,
 ]{jlreq}
 
 \RequirePackage[haranoaji]{luatexja-preset}
@@ -100,15 +105,17 @@
 
 %% ---------------------------------------------------------------
 %% 見出し（節番号は 1, 2.3, 3.4.2 形式。要項 5.）
+%%   Word テンプレートに合わせ、本文と同サイズのゴシック（太字なし）・1字下げ。
+%%   節番号は「1.」、項以下は「1.1」「1.1.1」。
 %% ---------------------------------------------------------------
 \setcounter{secnumdepth}{3}
 \jlreqsetup{
   caption_font=\normalfont,
   caption_label_font=\bfseries,
 }
-\RenewBlockHeading{section}{1}{font=\Large\bfseries\sffamily, lines=2, before_space=1\baselineskip, after_space=0.5\baselineskip, label_format={\thesection}, subtitle_font=\normalsize}
-\RenewBlockHeading{subsection}{2}{font=\large\bfseries\sffamily, lines=1.5, before_space=0.75\baselineskip, after_space=0.25\baselineskip, label_format={\thesubsection}}
-\RenewBlockHeading{subsubsection}{3}{font=\normalsize\bfseries\sffamily, lines=1, before_space=0.5\baselineskip, after_space=0pt, label_format={\thesubsubsection}}
+\RenewBlockHeading{section}{1}{font=\normalsize\sffamily\gtfamily, indent=1\zw, lines=1, before_space=0.5\baselineskip, after_space=0.5\baselineskip, label_format={\thesection.}}
+\RenewBlockHeading{subsection}{2}{font=\normalsize\sffamily\gtfamily, indent=1\zw, lines=1, before_space=0.25\baselineskip, after_space=0.25\baselineskip, label_format={\thesubsection}}
+\RenewBlockHeading{subsubsection}{3}{font=\normalsize\sffamily\gtfamily, indent=1\zw, lines=1, before_space=0.25\baselineskip, after_space=0.25\baselineskip, label_format={\thesubsubsection}}
 
 %% 番号なし見出し（謝辞・文献・付録）
 \newcommand*\bj@unnumberedhead[1]{\section*{#1}\addcontentsline{toc}{section}{#1}}
@@ -120,16 +127,14 @@
 }
 
 %% ---------------------------------------------------------------
-%% ページ番号（第1ページから通し番号。要項 4.）
+%% 柱・ページ番号（なし。ページ番号は事務局が付ける）
 %% ---------------------------------------------------------------
-\ModifyPageStyle{plain}{nombre_position=bottom-center, running_head_position=top-right}
-\pagestyle{plain}
-\newcommand*\runninghead[1]{\def\bj@runninghead{#1}}
-\runninghead{}
-\ModifyPageStyle{plain}{odd_running_head={\bj@runninghead}, even_running_head={\bj@runninghead}}
+\pagestyle{empty}
 
 %% ---------------------------------------------------------------
 %% タイトルページ要素（要項 4.: タイトル・種別・著者名・アブストラクト）
+%%   Word テンプレートにあるのは 種別・表題・副題・著者名・要旨 のみ。
+%%   英文表題・英文著者名・所属・キーワードは任意（指定したときだけ出力）。
 %% ---------------------------------------------------------------
 \newcommand*\bj@title{}\newcommand*\bj@subtitle{}
 \newcommand*\bj@authors{}\newcommand*\bj@affiliation{}
@@ -148,44 +153,51 @@
 \RenewDocumentEnvironment{abstract}{+b}{\gdef\bj@abstractbody{#1}}{}
 \NewDocumentEnvironment{englishabstract}{+b}{\gdef\bj@eabstractbody{#1}}{}
 
-\renewcommand\maketitle{%
-  \thispagestyle{plain}%
+%% 要旨ブロック（8.5pt, 左右 23pt 字下げ, 段落頭1字下げ, 見出しなし）
+\newcommand\bj@abstractblock[1]{%
+  \begin{list}{}{\leftmargin=23pt\rightmargin=23pt\topsep=0pt\partopsep=0pt\parsep=0pt}%
+    \fontsize{8.5pt}{13pt}\selectfont
+    \setlength\listparindent{1\zw}\setlength\itemindent{1\zw}%
+    \item\relax #1
+  \end{list}}
+
+%% タイトル部は2段組の上に1段で組む
+\newcommand\bj@maketitle{%
   \begingroup
   \setlength\parindent{0pt}%
-  % 種別ラベル
-  {\sffamily\small\bj@typename\par}
-  \vspace{1.5\baselineskip}
-  % 表題
+  % 種別ラベル（10.5pt ゴシック, 左寄せ）
+  {\fontsize{10.5pt}{14.4pt}\selectfont\sffamily\gtfamily\bj@typename\par}
+  \vspace{43.2pt}%
   \begin{center}
-    {\LARGE\bfseries\sffamily\bj@title\par}
-    \ifx\bj@subtitle\@empty\else\vspace{0.3\baselineskip}{\large\bfseries\sffamily ---\,\bj@subtitle\,---\par}\fi
-    \ifx\bj@etitle\@empty\else\vspace{0.5\baselineskip}{\large\bj@etitle\par}\fi
-    \vspace{1\baselineskip}
-    {\large\bj@authors\par}
-    \ifx\bj@affiliation\@empty\else{\small\bj@affiliation\par}\fi
-    \ifx\bj@eauthors\@empty\else\vspace{0.2\baselineskip}{\normalsize\bj@eauthors\par}\fi
+    % 表題（16.5pt ゴシック, 太字なし）
+    {\fontsize{16.5pt}{24pt}\selectfont\sffamily\gtfamily\bj@title\par}
+    % 副題（14pt 明朝, ―副題―）
+    \ifx\bj@subtitle\@empty\else
+      \vspace{0.5\baselineskip}{\fontsize{14pt}{20pt}\selectfont ―\bj@subtitle―\par}\fi
+    \ifx\bj@etitle\@empty\else
+      \vspace{0.5\baselineskip}{\fontsize{12pt}{18pt}\selectfont\bj@etitle\par}\fi
   \end{center}
-  \vspace{1\baselineskip}
+  \vspace{43.2pt}%
+  % 著者名（10.5pt, 右寄せ, 右端から2字内側）
+  {\raggedleft\fontsize{10.5pt}{15pt}\selectfont
+    \bj@authors\hspace*{2\zw}\par
+    \ifx\bj@eauthors\@empty\else\bj@eauthors\hspace*{2\zw}\par\fi
+    \ifx\bj@affiliation\@empty\else{\fontsize{8.5pt}{13pt}\selectfont\bj@affiliation\hspace*{2\zw}\par}\fi}
+  \vspace{28.8pt}%
   % 要旨
-  \ifx\bj@abstractbody\@empty\else
-    \begin{list}{}{\leftmargin=2\zw\rightmargin=2\zw\itemindent=0pt\listparindent=1\zw\parsep=0pt}
-      \item\relax{\bfseries\bj@abstractname}\par\nobreak
-      \small\bj@abstractbody
-    \end{list}
-  \fi
+  \ifx\bj@abstractbody\@empty\else\bj@abstractblock{\bj@abstractbody}\fi
   \ifx\bj@eabstractbody\@empty\else
-    \begin{list}{}{\leftmargin=2\zw\rightmargin=2\zw\itemindent=0pt\listparindent=1\zw\parsep=0pt}
-      \item\relax{\bfseries Abstract}\par\nobreak
-      \small\bj@eabstractbody
-    \end{list}
-  \fi
+    \ifx\bj@abstractbody\@empty\else\vspace{0.5\baselineskip}\fi
+    \bj@abstractblock{\bj@eabstractbody}\fi
   \ifx\bj@keywords\@empty\else
-    \vspace{0.5\baselineskip}
-    {\small\hspace{2\zw}\textbf{\bj@keywordsname}\bj@keywords\par}
-  \fi
-  \vspace{1.5\baselineskip}
-  \endgroup
-}
+    \vspace{0.5\baselineskip}%
+    \bj@abstractblock{\hspace*{-1\zw}\bj@keywordsname\bj@keywords}\fi
+  \vspace{28.8pt}%
+  \endgroup}
+
+\renewcommand\maketitle{%
+  \twocolumn[\bj@maketitle]%
+  \thispagestyle{empty}}
 
 %% ---------------------------------------------------------------
 %% 数式（別行立て・通し番号。要項 5.）
