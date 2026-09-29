@@ -1,0 +1,8 @@
+# latexmkrc — LuaLaTeX + biber
+# 使い方: latexmk sample     / 連続ビルド: latexmk -pvc sample
+$pdf_mode = 4;                       # 4 = lualatex
+$lualatex = 'lualatex -synctex=1 -interaction=nonstopmode -file-line-error %O %S';
+$bibtex_use = 2;
+$biber = 'biber %O %B';
+$clean_ext = 'bbl run.xml synctex.gz';
+$max_repeat = 5;

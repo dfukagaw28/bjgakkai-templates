@@ -1,0 +1,171 @@
+% sample.bib — 執筆要項 7. の例をそのまま収録
+%
+% 和文文献の書き方:
+%   - langid = {japanese} を付ける（「・」「（編）」『 』「．」に切り替わる）
+%   - 著者は「姓, 名」の形で書く: author = {佐伯, 胖 and 佐々木, 正人}
+%   - sortname にローマ字読みを入れると欧文文献と混ぜてアルファベット順に並ぶ
+%   - 翻訳書の併記は addendum に書く（丸括弧は自動で付く）
+
+@article{miller1956,
+  author       = {Miller, G. A.},
+  year         = {1956},
+  title        = {The Magical Number Seven, Plus or Minus Two: Some Limits on Our Capacity for Processing Information},
+  journaltitle = {Psychological Review},
+  volume       = {63},
+  number       = {1},
+  pages        = {81-97},
+}
+
+@inproceedings{cohen1985,
+  author    = {Cohen, P. R. and Levesque, H. J.},
+  year      = {1985},
+  title     = {Speech Acts and Rationality},
+  booktitle = {Proceedings of the 23rd Annual Meeting of the Association for Computational Linguistics},
+  pages     = {49-60},
+}
+
+@book{minsky1986,
+  author    = {Minsky, M.},
+  year      = {1986},
+  title     = {Society of Mind},
+  location  = {New York},
+  publisher = {Simon and Schuster},
+  addendum  = {安西 祐一郎 訳 (1990).『心の社会』. 東京: 産業図書．},
+}
+
+@book{minsky1986b,
+  author    = {Minsky, M.},
+  year      = {1986},
+  title     = {The Society of Mind (paperback edition)},
+  location  = {New York},
+  publisher = {Simon and Schuster},
+  note      = {同一著者・同一年の例（1986b になる）},
+}
+
+@collection{saeki1990,
+  editor    = {佐伯, 胖 and 佐々木, 正人},
+  year      = {1990},
+  title     = {アクティブ・マインド},
+  location  = {東京},
+  publisher = {東京大学出版会},
+  langid    = {japanese},
+  sortname  = {Saeki, Yutaka and Sasaki, Masato},
+}
+
+@incollection{minsky1975,
+  author    = {Minsky, M.},
+  year      = {1975},
+  title     = {A Framework for Representing Knowledge},
+  editor    = {Winston, P.},
+  booktitle = {Psychology of Computer Vision},
+  location  = {New York},
+  publisher = {McGraw-Hill},
+  addendum  = {白井 良明・杉原 厚吉 訳（1979）．知識を表現するための枠組．『コンピュータビジョンの心理』．東京: 産業図書．},
+}
+
+@incollection{perrault1990b,
+  author    = {Perrault, C. R.},
+  year      = {1990},
+  title     = {An Application of Default Logic to Speech Act Theory},
+  editor    = {Cohen, P. R. and Morgan, J. and Pollack, M. E.},
+  booktitle = {Intentions in Communication},
+  pages     = {161--185},
+  location  = {Cambridge, MA},
+  publisher = {MIT Press},
+}
+
+@report{rosenschein1987,
+  author      = {Rosenschein, S.},
+  year        = {1987},
+  title       = {Formal Theories of Knowledge in AI and Robotics},
+  type        = {Report No.},
+  number      = {CSLI-87-84},
+  location    = {Stanford},
+  institution = {Center for the Study of Language and Information, Stanford University},
+  addendum    = {斎藤 浩文 訳（1990）．AI とロボット工学における知識の形式理論．『現代思想』．\textbf{6}（3）, 127--139.},
+}
+
+@thesis{devins1981,
+  author      = {Devins, G. M.},
+  year        = {1981},
+  title       = {Helplessness, Depression, and Mood in Endstage Renal Disease},
+  type        = {Doctoral dissertation},
+  location    = {Montreal},
+  institution = {McGill University},
+}
+
+% ---- 引用例のための追加エントリ ----
+@book{gibson1979,
+  author    = {Gibson, J. J.},
+  year      = {1979},
+  title     = {The Ecological Approach to Visual Perception},
+  location  = {Boston},
+  publisher = {Houghton Mifflin},
+}
+
+@book{haugeland1987,
+  author    = {Haugeland, J.},
+  year      = {1987},
+  title     = {Artificial Intelligence: The Very Idea},
+  location  = {Cambridge, MA},
+  publisher = {MIT Press},
+}
+
+@book{simon1973,
+  author    = {Simon, H. A.},
+  year      = {1973},
+  title     = {The Organization of Complex Systems},
+  location  = {New York},
+  publisher = {Braziller},
+}
+
+@book{simon1981,
+  author    = {Simon, H. A.},
+  year      = {1981},
+  title     = {The Sciences of the Artificial},
+  edition   = {2},
+  location  = {Cambridge, MA},
+  publisher = {MIT Press},
+}
+
+@article{cohen1990a,
+  author       = {Cohen, P. R. and Levesque, H. J.},
+  year         = {1990},
+  title        = {Intention Is Choice with Commitment},
+  journaltitle = {Artificial Intelligence},
+  volume       = {42},
+  number       = {2-3},
+  pages        = {213--261},
+}
+
+@incollection{cohen1990b,
+  author    = {Cohen, P. R. and Levesque, H. J.},
+  year      = {1990},
+  title     = {Rational Interaction as the Basis for Communication},
+  editor    = {Cohen, P. R. and Morgan, J. and Pollack, M. E.},
+  booktitle = {Intentions in Communication},
+  pages     = {221--255},
+  location  = {Cambridge, MA},
+  publisher = {MIT Press},
+}
+
+@article{anzai1992,
+  author       = {安西, 祐一郎 and 山田, 太郎 and 鈴木, 花子},
+  year         = {1992},
+  title        = {認知科学における知識表現の諸問題},
+  journaltitle = {認知科学},
+  volume       = {1},
+  number       = {2},
+  pages        = {1--20},
+  langid       = {japanese},
+  sortname     = {Anzai, Yuichiro and Yamada, Taro and Suzuki, Hanako},
+}
+
+@inproceedings{joshi1981,
+  author    = {Joshi, A. K. and Webber, B. L. and Sag, I. A.},
+  year      = {1981},
+  title     = {Elements of Discourse Understanding},
+  booktitle = {Proceedings of the Workshop on Computational Aspects of Linguistic Structure and Discourse Setting},
+  location  = {Cambridge},
+  publisher = {Cambridge University Press},
+}

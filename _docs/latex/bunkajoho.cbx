@@ -1,0 +1,61 @@
+%% bunkajoho.cbx
+%% 紀要「文化情報学」執筆要項 7. に基づく本文中引用書式（authoryear-comp ベース）
+%%   \citet{key}      → Gibson (1979) / 佐伯・佐々木（1990）
+%%   \citep{key}      → (Gibson, 1979) / （佐伯・佐々木, 1990）
+%%   \citep[p.123]{k} → (Haugeland, 1987, p.123)
+%%   \citep{a,b,c}    → (安西 他, 1992; Joshi et al., 1981; Minsky, 1975, 1986)
+\ProvidesFile{bunkajoho.cbx}[2026/09/29 v0.1 Bunka Joho citation style]
+\RequireCitationStyle{authoryear-comp}
+
+\providecommand*{\ifentryjapanese}{\iffieldequalstr{langid}{japanese}}
+
+%% 引用中の著者名: 姓のみ
+\DeclareNameFormat{labelname}{\namepartfamily\usebibmacro{name:andothers}}
+
+%% 区切り記号
+\renewcommand*{\nameyeardelim}{\addcomma\space}          % (Gibson, 1979)
+\renewcommand*{\multicitedelim}{\addsemicolon\space}     % ; で区切る
+\renewcommand*{\compcitedelim}{\addcomma\space}          % (Simon, 1973, 1981)
+\renewcommand*{\postnotedelim}{\addcomma\space}          % (Haugeland, 1987, p.123)
+\DeclareFieldFormat{postnote}{#1}                        % p.123 はユーザが書く
+\DeclareFieldFormat{multipostnote}{#1}
+\DeclareDelimFormat[cite,textcite]{multinamedelim}{\ifentryjapanese{・}{\addcomma\space}}
+\DeclareDelimFormat[cite,textcite]{finalnamedelim}{\ifentryjapanese{・}{\addspace\&\space}}
+
+%% 和文文献は（ ）、欧文は ( )  ※ \mkbibparens は bbx で切替済み
+%% \citep 全体の括弧は先頭エントリの言語に従う
+\renewbibmacro*{cite:parens}{}
+\DeclareCiteCommand{\citep}[\bj@citeparens]
+  {\usebibmacro{cite:init}%
+   \usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {}
+  {\usebibmacro{postnote}}
+\newcommand*{\bj@citeparens}[1]{\bj@parens{#1}}
+\newcommand*{\bj@parens@en}[1]{(#1)}
+\newcommand*{\bj@parens@ja}[1]{（#1）}
+\global\let\bj@parens\bj@parens@en
+\AtEveryCite{\global\let\bj@parens\bj@parens@en}
+\AtEveryCitekey{\ifnumequal{\value{citecount}}{1}{\ifentryjapanese{\global\let\bj@parens\bj@parens@ja}{}}{}}
+
+%% \citet: Gibson (1979) / 佐伯・佐々木（1990）
+\DeclareCiteCommand{\citet}
+  {\usebibmacro{cite:init}%
+   \usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{textcite}}
+  {}
+  {\usebibmacro{textcite:postnote}}
+
+%% \cite は \citep と同じ、\textcite は \citet と同じ
+\DeclareCiteCommand{\cite}[\bj@citeparens]
+  {\usebibmacro{cite:init}%
+   \usebibmacro{prenote}}
+  {\usebibmacro{citeindex}%
+   \usebibmacro{cite}}
+  {}
+  {\usebibmacro{postnote}}
+
+%% \citeyearpar 等はそのまま authoryear-comp のものを利用
+\endinput
