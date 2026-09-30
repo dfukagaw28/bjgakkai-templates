@@ -28,8 +28,11 @@
 \DeclareDelimFormat{multicitedelim}{\addsemicolon\space}              % ; で区切る
 \DeclareDelimFormat{compcitedelim}{\addcomma\space}                   % Simon （1973, 1981）
 \DeclareDelimFormat{postnotedelim}{\addcomma\space}                   % Haugeland （1987, p.123）
-\DeclareFieldFormat{postnote}{#1}                                     % p.123 はユーザが書く
-\DeclareFieldFormat{multipostnote}{#1}
+%% ページ: 数字だけなら「p.」を付ける（\citet[123]{k} → p.123）。「p.123」と書いた場合はそのまま
+%% （pandoc 3.1 は [p.123] を「p.123」のまま、pandoc 3.7 は「123」として渡す）
+\DeclareFieldFormat{postnote}{\mkpageprefix[pagination][\mknormrange]{#1}}
+\DeclareFieldFormat{multipostnote}{\mkpageprefix[pagination][\mknormrange]{#1}}
+\renewcommand*{\ppspace}{}                                          % p.123（「p.」の後に空白を入れない）
 
 %% 同一著者・同一年でも年を省略しない: 1990a, 1990b（authoryear-comp の既定は 1990a,b）
 %% authoryear-comp は直前に \setunit{\addcomma} を置くので、ここで区切りを上書きする

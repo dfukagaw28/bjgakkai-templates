@@ -2,6 +2,7 @@
 --
 -- 1. 表を longtable（2段組では使えない）ではなく table + tabular で出力する。
 --    ::: wide で囲んだ表は2段抜き（table*）にし、文字を \footnotesize にする。
+--    ::: wide で囲んだ図は2段抜き（figure*、幅は版面幅基準）にする。
 -- 2. 番号なし見出し（.unnumbered）は bunkajoho.cls の番号なし見出しにする。
 -- 3. 付録（.appendix の付いた最初の第1レベル見出し）の前に \appendix を入れる。
 -- 4. 文献リスト（#refs）の位置に \printbibliography を置く。
@@ -73,7 +74,8 @@ local function table_latex(tbl, wide)
   return pandoc.RawBlock("latex", table.concat(lines, "\n"))
 end
 
-local function figure_latex(fig)
+local function figure_latex(fig, wide)
+  local env = wide and "figure*" or "figure"
   local img
   fig.content:walk({
     Image = function(i)
@@ -86,14 +88,14 @@ local function figure_latex(fig)
   local width = img.attributes.width or "100%"
   local w = width:match("^([%d.]+)%%$")
   local opt = w and string.format("width=%.2f\\linewidth", tonumber(w) / 100) or ("width=" .. width)
-  local lines = { "\\begin{figure}[tb]", "  \\centering", "  \\includegraphics[" .. opt .. "]{" .. img.src .. "}" }
+  local lines = { "\\begin{" .. env .. "}[tb]", "  \\centering", "  \\includegraphics[" .. opt .. "]{" .. img.src .. "}" }
   if pandoc.utils.stringify(fig.caption.long) ~= "" then
     table.insert(lines, "  \\caption{" .. to_latex(fig.caption.long) .. "}")
   end
   if fig.identifier ~= "" then
     table.insert(lines, "  \\label{" .. fig.identifier .. "}")
   end
-  table.insert(lines, "\\end{figure}")
+  table.insert(lines, "\\end{" .. env .. "}")
   return pandoc.RawBlock("latex", table.concat(lines, "\n"))
 end
 
@@ -102,11 +104,14 @@ local in_appendix = false
 return {
   {
     Div = function(div)
-      -- ::: wide 内の表は2段抜き
+      -- ::: wide 内の表・図は2段抜き
       if div.classes:includes("wide") then
         return div.content:walk({
           Table = function(tbl)
             return table_latex(tbl, true)
+          end,
+          Figure = function(fig)
+            return figure_latex(fig, true)
           end,
         })
       end
