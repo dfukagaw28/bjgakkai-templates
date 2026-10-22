@@ -130,6 +130,12 @@ def main(src, dst):
     doc = re.sub(r"<w:body>.*</w:body>", "<w:body>" + sectpr + "</w:body>", doc, flags=re.S)
     files["word/document.xml"] = doc.encode("utf-8")
 
+    # 作成者・最終更新者を消す（元のテンプレートの作成者名を配布物に残さない）
+    core = files["docProps/core.xml"].decode("utf-8")
+    core = re.sub(r"<dc:creator>[^<]*</dc:creator>", "<dc:creator></dc:creator>", core)
+    core = re.sub(r"<cp:lastModifiedBy>[^<]*</cp:lastModifiedBy>", "<cp:lastModifiedBy></cp:lastModifiedBy>", core)
+    files["docProps/core.xml"] = core.encode("utf-8")
+
     with zipfile.ZipFile(dst, "w", zipfile.ZIP_DEFLATED) as zout:
         for name, data in files.items():
             zout.writestr(name, data)
