@@ -23,6 +23,8 @@ Word 版（`docx/sample.docx`）の両方を pandoc で生成できます。
 | `latex/bunkajoho.cls` | クラスファイル（jlreq + LuaLaTeX）。種別・タイトルページ・節番号・図表・脚注 |
 | `latex/bunkajoho.bbx` | 文献リスト書式（biblatex, authoryear-comp ベース） |
 | `latex/bunkajoho.cbx` | 本文中引用書式（`\citet` / `\citep`） |
+| `latex/main.tex` | LaTeX 版の使用例兼説明書（手書き。LaTeX での書き方を説明。Overleaf 用 zip に入る） |
+| `latex/main.pdf` | `main.tex` の出力 |
 | `latex/sample.tex` | 使用例兼説明書（`sample.md` から生成。直接編集しない） |
 | `latex/figure1.png` | 使用例の図（プレースホルダ） |
 | `latex/sample.bib` | 執筆要項 7. の文献例をそのまま収録 |
@@ -39,9 +41,11 @@ Word 版（`docx/sample.docx`）の両方を pandoc で生成できます。
 make          # sample.md → latex/sample.tex, docx/sample.docx
 make pdf      # さらに latex/sample.pdf をビルド
 make clean    # LaTeX の中間ファイルを削除
+make overleaf # Overleaf 用の zip（dist/bunkajoho-latex.zip）を作る
 ```
 
-LaTeX 版だけを使う場合は、`latex/` で `latexmk sample` としてもビルドできます。
+LaTeX 版だけを使う場合は、`latex/main.tex` を書き換えて `latex/` で `latexmk main` としてビルドします。
+Overleaf では `make overleaf` で作った zip を New Project → Upload Project でアップロードします。
 Markdown から生成するには pandoc 3.1 以降が必要です。
 
 ## Markdown での書き方

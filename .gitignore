@@ -17,3 +17,6 @@
 *.snm
 *.xdv
 *.dvi
+
+# Overleaf 用 zip（make overleaf）
+dist/
