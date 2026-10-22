@@ -7,15 +7,16 @@
 
 | ファイル | 内容 |
 | --- | --- |
-| [`sample.md`](../sample.md) | 使用例兼説明書の原稿（LaTeX 版・Word 版の元） |
-| [`Makefile`](../Makefile) | `sample.md` から `latex/sample.tex` と `docx/sample.docx` を生成 |
+| [`sample.md`](../sample.md) | Markdown 版の使用例兼説明書（`latex/sample.tex` の元） |
+| [`docx/sample.md`](../docx/sample.md) | Word 版の使用例兼説明書の原稿（`docx/sample.docx` の元。Word での書き方を説明） |
+| [`Makefile`](../Makefile) | `sample.md` から `latex/sample.tex` を、`docx/sample.md` から `docx/sample.docx` を生成 |
 | [`pandoc/bunkajoho.latex`](../pandoc/bunkajoho.latex) | pandoc 用 LaTeX テンプレート |
 | [`pandoc/latex.lua`](../pandoc/latex.lua) | LaTeX 用フィルタ（表・図・数式・番号なし見出し・付録・文献リスト） |
 | [`pandoc/docx.lua`](../pandoc/docx.lua) | Word 用フィルタ（タイトル部・見出し番号・数式番号・図表番号・文献見出し） |
 | [`pandoc/bunkajoho.csl`](../pandoc/bunkajoho.csl) | Word 版の引用・文献リスト書式（要項 7. を再現する CSL） |
 | [`pandoc/make-reference-docx.py`](../pandoc/make-reference-docx.py) | 学会事務局の Word テンプレートから `docx/reference.docx` を作るスクリプト |
 | [`docx/reference.docx`](../docx/reference.docx) | Word 版の書式見本（学会事務局の Word テンプレートにスタイルを追加したもの） |
-| [`docx/sample.docx`](../docx/sample.docx) | Word 版の使用例（`sample.md` から生成） |
+| [`docx/sample.docx`](../docx/sample.docx) | Word 版の使用例（`docx/sample.md` から生成。直接編集しない） |
 | [`latex/bunkajoho.cls`](../latex/bunkajoho.cls) | クラスファイル（jlreq + LuaLaTeX）。種別・タイトルページ・節番号・図表・脚注 |
 | [`latex/bunkajoho.bbx`](../latex/bunkajoho.bbx) | 文献リスト書式（biblatex, authoryear-comp ベース） |
 | [`latex/bunkajoho.cbx`](../latex/bunkajoho.cbx) | 本文中引用書式（`\citet` / `\citep`） |
@@ -34,7 +35,7 @@
 ## コンパイル
 
 ```sh
-make          # sample.md → latex/sample.tex, docx/sample.docx
+make          # sample.md → latex/sample.tex, docx/sample.md → docx/sample.docx
 make pdf      # さらに latex/sample.pdf と latex/main.pdf をビルド
 make clean    # LaTeX の中間ファイルを削除
 make overleaf # Overleaf 用の zip（dist/bunkajoho-latex.zip）を作る

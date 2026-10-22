@@ -1,4 +1,6 @@
-# sample.md から LaTeX 版（latex/sample.tex）と Word 版（docx/sample.docx）を生成する
+# Markdown から LaTeX 版の見本（latex/sample.tex）と Word 版の見本（docx/sample.docx）を生成する
+#   sample.md      → latex/sample.tex（Markdown 利用者向けの見本）
+#   docx/sample.md → docx/sample.docx（Word 利用者向けの見本）
 #   make          … latex/sample.tex と docx/sample.docx を生成
 #   make pdf      … さらに latex/sample.pdf をビルド（LuaLaTeX + biber）
 #   make clean    … LaTeX の中間ファイルを削除
@@ -18,7 +20,7 @@ latex/sample.tex: sample.md pandoc/bunkajoho.latex pandoc/latex.lua
 	$(PANDOC) $< -f $(READER) $(WRAP) --biblatex \
 	  --template=pandoc/bunkajoho.latex --lua-filter=pandoc/latex.lua -o $@
 
-docx/sample.docx: sample.md latex/sample.bib latex/figure1.png pandoc/bunkajoho.csl pandoc/docx.lua docx/reference.docx
+docx/sample.docx: docx/sample.md latex/sample.bib latex/figure1.png pandoc/bunkajoho.csl pandoc/docx.lua docx/reference.docx
 	$(PANDOC) $< -f $(READER) --resource-path=.:latex \
 	  --citeproc --csl=pandoc/bunkajoho.csl \
 	  --lua-filter=pandoc/docx.lua --reference-doc=docx/reference.docx -o $@

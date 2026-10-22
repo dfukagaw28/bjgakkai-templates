@@ -5,7 +5,19 @@ Markdown と pandoc に慣れている人向けの方法です。
 見本は [`sample.md`](../sample.md) です。
 
 ビルドには pandoc 3.1 以降が必要です（LaTeX 版の PDF を作るには TeX も必要）。
-手順は [開発者向け情報](development.md#コンパイル) を参照してください。
+リポジトリのトップで次のように実行します（`make` と同じオプション）。
+
+```sh
+# LaTeX 版
+pandoc sample.md -f markdown-auto_identifiers+east_asian_line_breaks --wrap=preserve --biblatex \
+  --template=pandoc/bunkajoho.latex --lua-filter=pandoc/latex.lua -o latex/sample.tex
+# Word 版
+pandoc sample.md -f markdown-auto_identifiers+east_asian_line_breaks --resource-path=.:latex \
+  --citeproc --csl=pandoc/bunkajoho.csl \
+  --lua-filter=pandoc/docx.lua --reference-doc=docx/reference.docx -o sample.docx
+```
+
+`make` が生成する `docx/sample.docx` は Word 利用者向けの見本で、`docx/sample.md` から作られます。
 
 ## 書き方
 
