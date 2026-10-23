@@ -189,11 +189,13 @@
   % 水平線（ラベルのベースラインの 4bp 下）
   \kern\dimexpr4pt-\bj@pos\relax\hrule height 0.75pt
   \global\bj@pos=4.75bp
-  % 表題・副題
+  % 表題・副題（和文は「―副題―」、英語論文は「表題:」の次の行に副題）
   \setbox\@tempboxa\vbox{\hsize\textwidth\centering\bj@normalskip
-    {\fontsize{16bp}{28.3bp}\selectfont\bj@headfont\bj@title\par}%
+    {\fontsize{16bp}{28.3bp}\selectfont\bj@headfont\bj@title
+      \ifbj@english\ifx\bj@subtitle\@empty\else:\fi\fi\par}%
     \ifx\bj@subtitle\@empty\else
-      \vskip 9.8bp{\fontsize{12bp}{17bp}\selectfont\bj@headfont ―\bj@subtitle―\par}\fi}%
+      \vskip 9.8bp{\fontsize{12bp}{17bp}\selectfont\bj@headfont
+        \ifbj@english\bj@subtitle\else ―\bj@subtitle―\fi\par}\fi}%
   \bj@placeat{53.5bp-(\ht\@tempboxa+\dp\@tempboxa)/2}{\@tempboxa}%
   % 著者名
   \setbox\@tempboxa\vtop{\hsize\textwidth\raggedleft\bj@normalskip
