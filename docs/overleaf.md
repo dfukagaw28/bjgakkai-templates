@@ -59,6 +59,7 @@ Overleaf にログインした状態で、次のリンクをクリックしま�
 | ファイル | 役割 | 書き換える？ |
 | --- | --- | --- |
 | `main.tex` | 原稿の本体 | **書き換える** |
+| `main-en.tex` | 英語論文の見本 | 英語で書くときに使う（[下記](#英語で書く場合)） |
 | `sample.bib` | 引用する文献のデータ | **書き換える** |
 | `figure1.png` | 見本の図 | 自分の図に差し替える |
 | `bunkajoho.cls`、`bunkajoho.bbx`、`bunkajoho.cbx` | 紀要の体裁を決めるファイル | 書き換えない |
@@ -224,6 +225,18 @@ URL に `_` や `%` が含まれる場合は `\url{https://...}` と書くと、
 
 > [!TIP]
 > 右上の **Share** から、指導教員や共著者を招待して同じ原稿を一緒に編集できます。
+
+## 英語で書く場合
+
+英語の論文には、見本 `main-en.tex` を使います（[完成見本の PDF](../latex/main-en.pdf)）。
+
+1. 左上の **Menu** を開き、**Main document** を **main-en.tex** にする
+2. **Recompile** を押すと、英語の見本の PDF が表示される
+3. `main.tex` ではなく `main-en.tex` を書き換えていく
+
+`main-en.tex` の先頭は `\documentclass[paper,english]{bunkajoho}` になっています。
+`english` があると、種別・見出し・図表のキャプションが英語になり、引用の括弧が半角の ( ) になります。
+書き方は `main.tex` と同じです。
 
 ## うまくいかないとき
 

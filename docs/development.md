@@ -22,6 +22,8 @@
 | [`latex/bunkajoho.cbx`](../latex/bunkajoho.cbx) | 本文中引用書式（`\citet` / `\citep`） |
 | [`latex/main.tex`](../latex/main.tex) | LaTeX 版の使用例兼説明書（手書き。LaTeX での書き方を説明。Overleaf 用 zip に入る） |
 | [`latex/main.pdf`](../latex/main.pdf) | `main.tex` の出力 |
+| [`latex/main-en.tex`](../latex/main-en.tex) | 英語論文の使用例兼説明書（手書き。`english` オプションの見本。Overleaf 用 zip に入る） |
+| [`latex/main-en.pdf`](../latex/main-en.pdf) | `main-en.tex` の出力 |
 | [`latex/sample.tex`](../latex/sample.tex) | 使用例兼説明書（`sample.md` から生成。直接編集しない） |
 | [`latex/figure1.png`](../latex/figure1.png) | 使用例の図（プレースホルダ） |
 | [`latex/sample.bib`](../latex/sample.bib) | 執筆要項 7. の文献例をそのまま収録 |
@@ -36,7 +38,7 @@
 
 ```sh
 make          # sample.md → latex/sample.tex, docx/sample.md → docx/sample.docx
-make pdf      # さらに latex/sample.pdf と latex/main.pdf をビルド
+make pdf      # さらに latex/sample.pdf, latex/main.pdf, latex/main-en.pdf をビルド
 make clean    # LaTeX の中間ファイルを削除
 make overleaf # Overleaf 用の zip（dist/bunkajoho-latex.zip）を作る
 ```

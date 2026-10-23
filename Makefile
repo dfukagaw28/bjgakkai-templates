@@ -26,13 +26,13 @@ docx/sample.docx: docx/sample.md latex/sample.bib latex/figure1.png pandoc/bunka
 	  --lua-filter=pandoc/docx.lua --reference-doc=docx/reference.docx -o $@
 
 pdf: latex/sample.tex
-	cd latex && latexmk sample main
+	cd latex && latexmk sample main main-en
 
 clean:
-	cd latex && latexmk -c sample main
+	cd latex && latexmk -c sample main main-en
 
-# Overleaf 用: 手書きの見本 main.tex とクラス・文献スタイル一式（生成物の sample.tex は含めない）
-OVERLEAF_FILES := main.tex bunkajoho.cls bunkajoho.bbx bunkajoho.cbx sample.bib figure1.png latexmkrc
+# Overleaf 用: 手書きの見本 main.tex（和文）・main-en.tex（英語）とクラス・文献スタイル一式（生成物の sample.tex は含めない）
+OVERLEAF_FILES := main.tex main-en.tex bunkajoho.cls bunkajoho.bbx bunkajoho.cbx sample.bib figure1.png latexmkrc
 
 overleaf: $(addprefix latex/,$(OVERLEAF_FILES))
 	mkdir -p dist
