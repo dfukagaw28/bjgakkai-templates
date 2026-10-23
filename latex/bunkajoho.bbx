@@ -102,11 +102,12 @@
   \iffieldundef{labelyear}{}{\printtext[parens]{\printlabeldateextra}}}
 
 %% 巻(号), 頁  例: 63(1), 81-97
+%%   和文は誌名の後を「．」にする（要項の例:『現代思想』．6（3）, 127-139.）
 \renewbibmacro*{volume+number+eid}{%
   \printfield{volume}\printfield{number}}
 \renewbibmacro*{journal+issuetitle}{%
   \usebibmacro{journal}%
-  \setunit*{\addcomma\space}%
+  \setunit*{\ifentryjapanese{．}{\addcomma\space}}%
   \usebibmacro{volume+number+eid}%
   \newunit}
 \renewbibmacro*{note+pages}{%

@@ -185,21 +185,31 @@
   <macro name="container">
     <choose>
       <if type="article-journal article-magazine article-newspaper" match="any">
-        <group delimiter=", ">
-          <text macro="container-title"/>
-          <group>
-            <text variable="volume" font-weight="bold"/>
-            <choose>
-              <if variable="language">
-                <text variable="issue" prefix="（" suffix="）"/>
-              </if>
-              <else>
+        <choose>
+          <!-- 和文は誌名の後を「．」にする（要項の例:『現代思想』．6（3）, 127–139.） -->
+          <if variable="language">
+            <group delimiter="．">
+              <text macro="container-title"/>
+              <group delimiter=", ">
+                <group>
+                  <text variable="volume" font-weight="bold"/>
+                  <text variable="issue" prefix="（" suffix="）"/>
+                </group>
+                <text variable="page"/>
+              </group>
+            </group>
+          </if>
+          <else>
+            <group delimiter=", ">
+              <text macro="container-title"/>
+              <group>
+                <text variable="volume" font-weight="bold"/>
                 <text variable="issue" prefix="(" suffix=")"/>
-              </else>
-            </choose>
-          </group>
-          <text variable="page"/>
-        </group>
+              </group>
+              <text variable="page"/>
+            </group>
+          </else>
+        </choose>
       </if>
       <else-if type="paper-conference">
         <group delimiter=", ">
