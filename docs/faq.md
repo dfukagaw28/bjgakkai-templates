@@ -77,7 +77,7 @@ LaTeX 版は、刊行された論文と同じ字詰め（1 段 22 字 × 46 行 
 
 書けます。英語の論文の書き方は、要項に書かれていないことについて APA の *Publication Manual* に従うことになっています（要項 10.）。
 
-- LaTeX：`\documentclass[paper,english]{bunkajoho}` のように `english` を加えると、見出しや種別などが英語になり、引用の括弧が半角になります。ただし、このオプションの出力はまだ十分に確認できていません。
+- LaTeX：`\documentclass[paper,english]{bunkajoho}` のように `english` を加えると、種別（Research Paper など）、Acknowledgments・References・Appendix の見出し、Figure・Table のキャプションが英語になり、引用の括弧が半角になります。
 - Word：見本の日本語の部分を英語に書き換えてください。
 
 ### どんな形式で提出すればよいですか？

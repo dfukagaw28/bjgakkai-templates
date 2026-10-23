@@ -80,6 +80,8 @@
   \newcommand*\bj@refname{References}
   \renewcommand*\figurename{Figure}
   \renewcommand*\tablename{Table}
+  \renewcommand*\fnum@figure{\figurename~\thefigure}   % 「Figure 1.」（jlreq の既定は「Figure1」）
+  \renewcommand*\fnum@table{\tablename~\thetable}
   \captionsetup{labelsep=period}
 \else
   \def\bj@set@typename{%
@@ -136,7 +138,7 @@
 \renewcommand\appendix{%
   \setcounter{section}{0}\setcounter{subsection}{0}%
   \renewcommand\thesection{\bj@appendixname\Alph{section}}%
-  \ifbj@english\renewcommand\thesection{\Alph{section}}\fi
+  \ifbj@english\renewcommand\thesection{\bj@appendixname~\Alph{section}}\fi   % 「Appendix A.」
 }
 
 %% ---------------------------------------------------------------
