@@ -28,11 +28,16 @@
 | [`latex/figure1.png`](../latex/figure1.png) | 使用例の図（プレースホルダ） |
 | [`latex/sample.bib`](../latex/sample.bib) | 執筆要項 7. の文献例をそのまま収録 |
 | [`latex/latexmkrc`](../latex/latexmkrc) | `latexmk sample` で LuaLaTeX + biber を実行 |
+| [`typst/bunkajoho.typ`](../typst/bunkajoho.typ) | Typst 版のテンプレート（`bunkajoho.cls` と同じ寸法） |
+| [`typst/bunkajoho.csl`](../typst/bunkajoho.csl) | Typst 版の引用・文献リスト書式（`pandoc/bunkajoho.csl` を Typst に合わせて変えたもの） |
+| [`typst/sample.yml`](../typst/sample.yml) | `latex/sample.bib` を Hayagriva 形式にしたもの（和文文献は `language: ja`） |
+| [`typst/main.typ`](../typst/main.typ)、[`typst/main-en.typ`](../typst/main-en.typ) | Typst 版の使用例兼説明書（和文・英語論文）と、その出力の PDF |
 
 ## 必要環境
 
 - TeX Live 2023 以降（LuaLaTeX, jlreq, luatexja, biblatex, biber, 原ノ味フォント）
 - Overleaf の場合: Menu → Compiler を **LuaLaTeX** に設定
+- Typst 版: Typst 0.13 以降（確認は 0.15.1。`typst` がなければ Quarto に同梱の `quarto typst` を使う）、Noto Serif CJK JP・Noto Sans CJK JP
 
 ## コンパイル
 
@@ -41,6 +46,8 @@ make          # sample.md → latex/sample.tex, docx/sample.md → docx/sample.d
 make pdf      # さらに latex/sample.pdf, latex/main.pdf, latex/main-en.pdf をビルド
 make clean    # LaTeX の中間ファイルを削除
 make overleaf # Overleaf 用の zip（dist/bunkajoho-latex.zip）を作る
+make typst    # typst/main.pdf, typst/main-en.pdf をビルド
+make typst-zip # Typst 版の zip（dist/bunkajoho-typst.zip）を作る
 ```
 
 LaTeX 版だけを使う場合は、`latex/main.tex` を書き換えて `latex/` で `latexmk main` としてビルドします。
@@ -52,6 +59,7 @@ Markdown から生成するには pandoc 3.1 以降が必要です。
 README の「Overleaf で開く」「zip をダウンロード」は、GitHub Releases の最新版に添付された
 `bunkajoho-latex.zip` を指しています（`releases/latest/download/bunkajoho-latex.zip`）。
 リリースを作るときは `make overleaf` で作った `dist/bunkajoho-latex.zip` を添付してください。
+Typst 版の zip（`bunkajoho-typst.zip`）も同じく、`make typst-zip` で作って添付します。
 
 ## 基本的な使い方
 
@@ -89,5 +97,8 @@ README の「Overleaf で開く」「zip をダウンロード」は、GitHub Re
 - [x] Overleaf の「Overleaf で開く」リンクで開いてコンパイルできることを確認
 - [ ] Word 版の本文中引用で、和文文献の「佐伯・佐々木（1990）」の前後に空白が入る（CSL の制約）
 - [ ] 和文の編集書の中の論文で、LaTeX 版（「田中 一郎（編）, 『書名』」）と Word 版（「田中一郎（編）『書名』」）の出力が異なる。[参考文献の書き方](references.md) は LaTeX 版の形で説明している
+- [ ] Typst 版: Typst（Hayagriva）の制約で、同じ著者の複数の文献が「（Simon, 1973; 1981）」と「;」で区切られる（`cite-group-delimiter` を「, 」にすると、異なる著者の間も「,」になることがあるため）。`form: "year"` では「1986a」の a が付かない
+- [ ] Typst 版: Typst は .bib の `langid` を読まないため、文献データは YAML（Hayagriva 形式）にしている
+- [ ] Typst 版: typst.app で開いて体裁を確認（フォント Noto Serif CJK JP が使えるか）
 
 [← README に戻る](../README.md)

@@ -14,6 +14,7 @@
 | --- | --- | --- | --- |
 | **Word** | まず迷ったらこれ | Microsoft Word | [Word で書く](docs/word.md) |
 | **LaTeX（Overleaf）** | 数式が多い人、LaTeX を使ってみたい人 | ブラウザだけ（インストール不要） | [Overleaf で書く](docs/overleaf.md) |
+| Typst | LaTeX より簡単な書き方で組版したい人 | ブラウザ、または VS Code | [Typst で書く](docs/typst.md) |
 | Markdown | Markdown と pandoc に慣れている人 | pandoc, TeX | [Markdown で書く](docs/markdown.md) |
 
 ## ダウンロード
@@ -21,6 +22,7 @@
 - **Word 版**：[sample.docx をダウンロード](https://github.com/dfukagaw28/bjgakkai-templates/raw/main/docx/sample.docx)
 - **LaTeX 版**：[Overleaf で開く](https://www.overleaf.com/docs?snip_uri=https://github.com/dfukagaw28/bjgakkai-templates/releases/latest/download/bunkajoho-latex.zip&engine=lualatex)
   ／ [zip をダウンロード](https://github.com/dfukagaw28/bjgakkai-templates/releases/latest/download/bunkajoho-latex.zip)
+- **Typst 版**：[zip をダウンロード](https://github.com/dfukagaw28/bjgakkai-templates/releases/latest/download/bunkajoho-typst.zip)（使い方は [Typst で書く](docs/typst.md)）
 - **完成見本**：[PDF を見る](latex/main.pdf)（英語論文：[PDF](latex/main-en.pdf)）
 
 ## 書き方の説明

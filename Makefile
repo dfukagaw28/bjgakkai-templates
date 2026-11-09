@@ -5,6 +5,8 @@
 #   make pdf      … さらに latex/sample.pdf をビルド（LuaLaTeX + biber）
 #   make clean    … LaTeX の中間ファイルを削除
 #   make overleaf … Overleaf 用の zip（dist/bunkajoho-latex.zip）を作る
+#   make typst    … Typst 版の見本 PDF（typst/main.pdf, main-en.pdf）を作る
+#   make typst-zip … Typst 版の zip（dist/bunkajoho-typst.zip）を作る
 #   make reference-docx REF=<学会の Word テンプレート.docx> … docx/reference.docx を作り直す
 
 PANDOC ?= pandoc
@@ -12,7 +14,7 @@ PANDOC ?= pandoc
 READER := markdown-auto_identifiers+east_asian_line_breaks
 WRAP := --wrap=preserve
 
-.PHONY: all pdf clean overleaf reference-docx
+.PHONY: all pdf clean overleaf typst typst-zip reference-docx
 
 all: latex/sample.tex docx/sample.docx
 
@@ -38,6 +40,20 @@ overleaf: $(addprefix latex/,$(OVERLEAF_FILES))
 	mkdir -p dist
 	rm -f dist/bunkajoho-latex.zip
 	cd latex && zip -q ../dist/bunkajoho-latex.zip $(OVERLEAF_FILES)
+
+# Typst 版: typst コマンドがなければ quarto に同梱の typst を使う
+TYPST ?= $(shell command -v typst >/dev/null 2>&1 && echo typst || echo quarto typst)
+TYPST_FILES := main.typ main-en.typ bunkajoho.typ bunkajoho.csl sample.yml figure1.png
+
+typst: typst/main.pdf typst/main-en.pdf
+
+typst/%.pdf: typst/%.typ typst/bunkajoho.typ typst/bunkajoho.csl typst/sample.yml typst/figure1.png
+	$(TYPST) compile $< $@
+
+typst-zip: $(addprefix typst/,$(TYPST_FILES))
+	mkdir -p dist
+	rm -f dist/bunkajoho-typst.zip
+	cd typst && zip -q ../dist/bunkajoho-typst.zip $(TYPST_FILES)
 
 reference-docx:
 	@test -n "$(REF)" || { echo "usage: make reference-docx REF=<Word テンプレート.docx>"; exit 1; }

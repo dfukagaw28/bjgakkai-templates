@@ -1,0 +1,188 @@
+miller1956:
+  type: article
+  author: Miller, G. A.
+  date: 1956
+  title: "The Magical Number Seven, Plus or Minus Two: Some Limits on Our Capacity for Processing Information"
+  page-range: 81-97
+  parent:
+    type: periodical
+    title: Psychological Review
+    volume: 63
+    issue: 1
+
+cohen1985:
+  type: article
+  author: ["Cohen, P. R.", "Levesque, H. J."]
+  date: 1985
+  title: Speech Acts and Rationality
+  page-range: 49-60
+  parent:
+    type: proceedings
+    title: Proceedings of the 23rd Annual Meeting of the Association for Computational Linguistics
+
+minsky1986:
+  type: book
+  author: Minsky, M.
+  date: 1986
+  title: Society of Mind
+  publisher:
+    name: Simon and Schuster
+    location: New York
+  note: "安西 祐一郎 訳 (1990).『心の社会』. 東京: 産業図書．"
+
+minsky1986b:
+  type: book
+  author: Minsky, M.
+  date: 1986
+  title: The Society of Mind (paperback edition)
+  publisher:
+    name: Simon and Schuster
+    location: New York
+
+saeki1990:
+  type: anthology
+  editor: ["佐伯, 胖", "佐々木, 正人"]
+  date: 1990
+  title: アクティブ・マインド
+  publisher:
+    name: 東京大学出版会
+    location: 東京
+  language: ja
+
+minsky1975:
+  type: chapter
+  author: Minsky, M.
+  date: 1975
+  title: A Framework for Representing Knowledge
+  parent:
+    type: anthology
+    editor: Winston, P.
+    title: Psychology of Computer Vision
+    publisher:
+      name: McGraw-Hill
+      location: New York
+  note: "白井 良明・杉原 厚吉 訳（1979）．知識を表現するための枠組．『コンピュータビジョンの心理』．東京: 産業図書．"
+
+perrault1990b:
+  type: chapter
+  author: Perrault, C. R.
+  date: 1990
+  title: An Application of Default Logic to Speech Act Theory
+  page-range: 161-185
+  parent:
+    type: anthology
+    editor: ["Cohen, P. R.", "Morgan, J.", "Pollack, M. E."]
+    title: Intentions in Communication
+    publisher:
+      name: MIT Press
+      location: Cambridge, MA
+
+rosenschein1987:
+  type: report
+  author: Rosenschein, S.
+  date: 1987
+  title: Formal Theories of Knowledge in AI and Robotics
+  genre: Report No. CSLI-87-84
+  publisher:
+    name: Center for the Study of Language and Information, Stanford University
+    location: Stanford
+  note: "斎藤 浩文 訳（1990）．AI とロボット工学における知識の形式理論．『現代思想』．6（3）, 127–139."
+
+devins1981:
+  type: thesis
+  author: Devins, G. M.
+  date: 1981
+  title: Helplessness, Depression, and Mood in Endstage Renal Disease
+  genre: Doctoral dissertation
+  publisher:
+    name: McGill University
+    location: Montreal
+
+gibson1979:
+  type: book
+  author: Gibson, J. J.
+  date: 1979
+  title: The Ecological Approach to Visual Perception
+  publisher:
+    name: Houghton Mifflin
+    location: Boston
+
+haugeland1987:
+  type: book
+  author: Haugeland, J.
+  date: 1987
+  title: "Artificial Intelligence: The Very Idea"
+  publisher:
+    name: MIT Press
+    location: Cambridge, MA
+
+simon1973:
+  type: book
+  author: Simon, H. A.
+  date: 1973
+  title: The Organization of Complex Systems
+  publisher:
+    name: Braziller
+    location: New York
+
+simon1981:
+  type: book
+  author: Simon, H. A.
+  date: 1981
+  title: The Sciences of the Artificial
+  edition: 2
+  publisher:
+    name: MIT Press
+    location: Cambridge, MA
+
+cohen1990a:
+  type: article
+  author: ["Cohen, P. R.", "Levesque, H. J."]
+  date: 1990
+  title: Intention Is Choice with Commitment
+  page-range: 213-261
+  parent:
+    type: periodical
+    title: Artificial Intelligence
+    volume: 42
+    issue: 2-3
+
+cohen1990b:
+  type: chapter
+  author: ["Cohen, P. R.", "Levesque, H. J."]
+  date: 1990
+  title: Rational Interaction as the Basis for Communication
+  page-range: 221-255
+  parent:
+    type: anthology
+    editor: ["Cohen, P. R.", "Morgan, J.", "Pollack, M. E."]
+    title: Intentions in Communication
+    publisher:
+      name: MIT Press
+      location: Cambridge, MA
+
+anzai1992:
+  type: article
+  author: ["安西, 祐一郎", "山田, 太郎", "鈴木, 花子"]
+  date: 1992
+  title: 認知科学における知識表現の諸問題
+  page-range: 1-20
+  language: ja
+  parent:
+    type: periodical
+    title: 認知科学
+    volume: 1
+    issue: 2
+
+joshi1981:
+  type: article
+  author: ["Joshi, A. K.", "Webber, B. L.", "Sag, I. A."]
+  date: 1981
+  title: Elements of Discourse Understanding
+  parent:
+    type: proceedings
+    title: Proceedings of the Workshop on Computational Aspects of Linguistic Structure and Discourse Setting
+    publisher:
+      name: Cambridge University Press
+      location: Cambridge
+
