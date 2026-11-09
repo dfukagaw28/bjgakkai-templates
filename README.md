@@ -23,7 +23,9 @@
 - **LaTeX 版**：[Overleaf で開く](https://www.overleaf.com/docs?snip_uri=https://github.com/dfukagaw28/bjgakkai-templates/releases/latest/download/bunkajoho-latex.zip&engine=lualatex)
   ／ [zip をダウンロード](https://github.com/dfukagaw28/bjgakkai-templates/releases/latest/download/bunkajoho-latex.zip)
 - **Typst 版**：[zip をダウンロード](https://github.com/dfukagaw28/bjgakkai-templates/releases/latest/download/bunkajoho-typst.zip)（使い方は [Typst で書く](docs/typst.md)）
-- **完成見本**：[PDF を見る](latex/main.pdf)（英語論文：[PDF](latex/main-en.pdf)）
+- **完成見本**
+  - LaTeX 版：[PDF を見る](latex/main.pdf)（英語論文：[PDF](latex/main-en.pdf)）
+  - Typst 版：[PDF を見る](typst/main.pdf)（英語論文：[PDF](typst/main-en.pdf)）
 
 ## 書き方の説明
 
